@@ -157,7 +157,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── How It Works ── */}
       <section className="bg-stone-50 border-y border-stone-200 py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
@@ -172,7 +171,7 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map(({ step, title, desc }, idx) => (
               <div key={step} className="relative">
-                {/* Connector line */}
+                
                 {idx < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-8 left-full w-full h-px bg-stone-200 z-0 -translate-x-4" />
                 )}
@@ -189,7 +188,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ── For Shopkeepers ── */}
       <section className="max-w-6xl mx-auto px-4 py-20">
         <div className="bg-gradient-to-r from-stone-800 to-stone-900 rounded-3xl p-10 md:p-16 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -235,8 +233,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* ── Final CTA ── */}
       <section className="bg-orange-500 text-white py-16">
         <div className="max-w-2xl mx-auto px-4 text-center">
           <h2 className="font-display font-bold text-3xl md:text-4xl mb-4">

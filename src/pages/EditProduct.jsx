@@ -1,29 +1,50 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProductById, updateProduct } from "../api/axios";
+import { getProductById, updateProduct, deleteImage } from "../api/axios";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import { Pencil } from "lucide-react";
+import MultiImageUpload from "../components/MultiImageUpload";
 
 const CATEGORIES = ["Grocery","Electronics","Clothing","Pharmacy","Hardware","Stationery","Food & Beverage","Other"];
 const UNITS = ["piece","kg","gram","litre","ml","dozen","pack","box"];
 
+const extractFilename = (url) => {
+  if (!url || url.startsWith("http") === false) return null;
+  const match = url.match(/\/uploads\/(.+)$/);
+  return match ? match[1] : null;
+};
+
 const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading]   = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [form, setForm] = useState({
+  const [form, setForm]         = useState({
     name: "", description: "", category: "Grocery",
-    price: "", stock: "", unit: "piece", image: "",
+    price: "", stock: "", unit: "piece",
   });
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [originalImages, setOriginalImages] = useState([]);
 
- useEffect(() => {
+  useEffect(() => {
     const fetch = async () => {
       try {
         const { data } = await getProductById(id);
-        setForm({ name: data.name, description: data.description || "", category: data.category,
-          price: data.price, stock: data.stock, unit: data.unit || "piece", image: data.image || "" });
+        setForm({
+          name:        data.name,
+          description: data.description || "",
+          category:    data.category,
+          price:       data.price,
+          stock:       data.stock,
+          unit:        data.unit || "piece",
+        });
+        const existing = [
+          ...(data.image  ? [data.image]  : []),
+          ...(data.images || []),
+        ].filter(Boolean);
+        setUploadedImages(existing);
+        setOriginalImages(existing);
       } catch {
         toast.error("Failed to load product");
         navigate("/dashboard");
@@ -32,7 +53,7 @@ const EditProduct = () => {
       }
     };
     fetch();
-  }, [id, navigate]); 
+  }, [id, navigate]);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -40,7 +61,20 @@ const EditProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await updateProduct(id, form);
+      const removedImages = originalImages.filter(url => !uploadedImages.includes(url));
+      await Promise.allSettled(
+        removedImages.map(url => {
+          const filename = extractFilename(url);
+          return filename ? deleteImage(filename) : Promise.resolve();
+        })
+      );
+
+      const [primary, ...rest] = uploadedImages;
+      await updateProduct(id, {
+        ...form,
+        image:  primary || "",
+        images: rest,
+      });
       toast.success("Product updated!");
       navigate("/dashboard");
     } catch (err) {
@@ -65,6 +99,13 @@ const EditProduct = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-stone-200 p-6 space-y-5">
+
+        <MultiImageUpload
+          values={uploadedImages}
+          onChange={setUploadedImages}
+          maxImages={5}
+        />
+
         <div>
           <label className="block text-sm font-medium text-stone-700 mb-1.5">Product Name *</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} required
@@ -100,11 +141,6 @@ const EditProduct = () => {
               {UNITS.map(u => <option key={u}>{u}</option>)}
             </select>
           </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Image URL</label>
-          <input type="url" name="image" value={form.image} onChange={handleChange}
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
         </div>
         <div className="flex gap-3 pt-2">
           <button type="button" onClick={() => navigate("/dashboard")}

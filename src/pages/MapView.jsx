@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import Loader from "../components/Loader";
 
-// ── Fix default marker icons ─────────────────────
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -21,7 +20,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl:     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// ── Custom Icons ─────────────────────────────────
 const createIcon = (color) => new L.Icon({
   iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -32,7 +30,6 @@ const shopIcon   = createIcon("orange");
 const userIcon   = createIcon("blue");
 const activeIcon = createIcon("red");
 
-// ── Category colors ───────────────────────────────
 const CATEGORY_COLORS = {
   Grocery:        "#f97316",
   Electronics:    "#3b82f6",
@@ -49,7 +46,6 @@ const CATEGORIES = [
   "Pharmacy", "Hardware", "Stationery", "Food & Beverage", "Other"
 ];
 
-// ── Fly to location helper ────────────────────────
 const FlyTo = ({ center, zoom }) => {
   const map = useMap();
   useEffect(() => {
@@ -58,18 +54,15 @@ const FlyTo = ({ center, zoom }) => {
   return null;
 };
 
-// ── Route line between two points ────────────────
 const RouteDisplay = ({ from, to }) => {
   const map = useMap();
   const routeLayerRef = useRef(null);
 
   useEffect(() => {
     if (!from || !to) return;
-
-    // Remove existing route
     if (routeLayerRef.current) map.removeLayer(routeLayerRef.current);
 
-    // Draw straight line route
+
     const polyline = L.polyline(
       [[from.lat, from.lng], [to[0], to[1]]],
       { color: "#f97316", weight: 4, opacity: 0.8, dashArray: "10, 5" }
@@ -99,11 +92,10 @@ const MapView = () => {
   const [showRoute, setShowRoute]       = useState(false);
   const [routeTarget, setRouteTarget]   = useState(null);
   const [showFilters, setShowFilters]   = useState(false);
-  const [mapLayer, setMapLayer]         = useState("street"); // street | satellite | terrain
+  const [mapLayer, setMapLayer]         = useState("street"); 
 
   useEffect(() => { fetchAllShops(); }, []);
 
-  // Apply category filter
   useEffect(() => {
     if (selectedCategory === "All") {
       setFilteredShops(allShops);
@@ -162,7 +154,6 @@ const MapView = () => {
     setSelectedShop(shop);
   };
 
-  // Tile layer URLs
   const tileLayers = {
     street: {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -183,7 +174,6 @@ const MapView = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-4">
 
-      {/* ── Header ── */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -199,9 +189,9 @@ const MapView = () => {
           </div>
         </div>
 
-        {/* Controls */}
+      
         <div className="flex items-center gap-2 flex-wrap">
-          {/* Map layer toggle */}
+         
           <div className="flex items-center bg-white border border-stone-200 rounded-xl overflow-hidden">
             {["street", "satellite", "terrain"].map((layer) => (
               <button
@@ -217,7 +207,6 @@ const MapView = () => {
             ))}
           </div>
 
-          {/* Filter toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-1.5 px-3 py-2 border rounded-xl text-sm font-medium transition-colors
@@ -251,7 +240,6 @@ const MapView = () => {
         </div>
       </div>
 
-      {/* Category filter pills */}
       {showFilters && (
         <div className="bg-white border border-stone-200 rounded-2xl p-4">
           <p className="text-sm font-semibold text-stone-700 mb-3 flex items-center gap-2">
@@ -280,7 +268,6 @@ const MapView = () => {
         </div>
       )}
 
-      {/* Route info banner */}
       {showRoute && selectedShop && (
         <div className="bg-orange-50 border border-orange-200 rounded-2xl p-3 flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-orange-700">
@@ -297,11 +284,8 @@ const MapView = () => {
           </button>
         </div>
       )}
-
-      {/* Main content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-        {/* ── Map ── */}
         <div className="lg:col-span-2 rounded-2xl overflow-hidden border border-stone-200 shadow-sm" style={{ height: "540px" }}>
           <MapContainer
             center={mapCenter}
@@ -309,21 +293,19 @@ const MapView = () => {
             style={{ height: "100%", width: "100%" }}
             key={`map-${mapLayer}`}
           >
-            {/* Tile Layer */}
             <TileLayer
               attribution={tileLayers[mapLayer].attribution}
               url={tileLayers[mapLayer].url}
             />
 
-            {/* Fly to new center */}
             <FlyTo center={mapCenter} zoom={mapZoom} />
 
-            {/* Route line */}
+            
             {showRoute && userLocation && routeTarget && (
               <RouteDisplay from={userLocation} to={routeTarget} />
             )}
 
-            {/* User location */}
+            
             {userLocation && (
               <>
                 <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>
@@ -339,8 +321,7 @@ const MapView = () => {
               </>
             )}
 
-            {/* Shop markers */}
-            {filteredShops.map((shop) => {
+             {filteredShops.map((shop) => {
               if (!shop.location?.coordinates) return null;
               const [shopLng, shopLat] = shop.location.coordinates;
               const isSelected = selectedShop?._id === shop._id;
@@ -399,7 +380,7 @@ const MapView = () => {
           </MapContainer>
         </div>
 
-        {/* ── Shop List Sidebar ── */}
+      
         <div className="lg:col-span-1 space-y-2 overflow-y-auto pr-1" style={{ maxHeight: "540px" }}>
           {filteredShops.length === 0 ? (
             <div className="text-center py-12 text-stone-400">
@@ -423,7 +404,7 @@ const MapView = () => {
                   : "border-stone-200 hover:border-stone-300"}`}
             >
               <div className="flex items-start gap-3">
-                {/* Category color dot */}
+                
                 <div
                   className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
                   style={{ backgroundColor: CATEGORY_COLORS[shop.category] + "20" }}
@@ -452,7 +433,6 @@ const MapView = () => {
                 </div>
               </div>
 
-              {/* Actions when selected */}
               {selectedShop?._id === shop._id && (
                 <div className="mt-3 flex gap-2">
                   <button
@@ -508,7 +488,6 @@ const MapView = () => {
         </span>
       </div>
 
-      {/* Category legend */}
       <div className="flex flex-wrap gap-2">
         {Object.entries(CATEGORY_COLORS).map(([cat, color]) => (
           <span key={cat} className="flex items-center gap-1.5 text-xs text-stone-500">

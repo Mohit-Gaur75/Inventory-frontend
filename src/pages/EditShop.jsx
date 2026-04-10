@@ -4,6 +4,7 @@ import { getMyShop, updateShop } from "../api/axios";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import { MapPin, Store } from "lucide-react";
+//import ShopStatusPanel from "../components/ShopStatusPanel";
 
 const CATEGORIES = ["Grocery","Electronics","Clothing","Pharmacy","Hardware","Stationery","Food & Beverage","Other"];
 
@@ -18,7 +19,6 @@ const EditShop = () => {
     latitude: "", longitude: "", phone: "", email: "",
   });
 
-  // Load existing shop data into form
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -49,7 +49,6 @@ const EditShop = () => {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  // Auto-detect location
   const detectLocation = () => {
     if (!navigator.geolocation) return toast.error("Geolocation not supported");
     toast.loading("Detecting location...");

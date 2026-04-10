@@ -5,10 +5,11 @@ import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import {
   Plus, Pencil, Trash2, Store, Package,
-  AlertCircle, TrendingUp, AlertTriangle, Settings
+  AlertCircle, TrendingUp, AlertTriangle, Settings,
+  Upload, FileDown
 } from "lucide-react";
+import ShopStatusPanel from "../components/ShopStatusPanel";
 
-// Products with stock below this are considered "low stock"
 const LOW_STOCK_THRESHOLD = 5;
 
 const Dashboard = () => {
@@ -55,22 +56,18 @@ const Dashboard = () => {
       toast.error("Failed to delete product");
     }
   };
-
-  // ── Stats ──────────────────────────────────────────
   const totalStock  = products.reduce((sum, p) => sum + p.stock, 0);
   const outOfStock  = products.filter((p) => !p.isAvailable).length;
   const avgPrice    = products.length
     ? (products.reduce((s, p) => s + p.price, 0) / products.length).toFixed(0)
     : 0;
 
-  // Low stock = available but stock is low
   const lowStockProducts = products.filter(
     (p) => p.isAvailable && p.stock > 0 && p.stock <= LOW_STOCK_THRESHOLD
   );
 
   if (loadingShop) return <Loader text="Loading dashboard..." />;
 
-  // ── No shop yet ────────────────────────────────────
   if (!shop) {
     return (
       <div className="max-w-lg mx-auto px-4 py-20 text-center">
@@ -92,7 +89,6 @@ const Dashboard = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
 
-      {/* ── Header ── */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h1 className="font-display font-bold text-3xl text-stone-800">{shop.name}</h1>
@@ -101,12 +97,19 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {/* Edit Shop button */}
           <Link to="/edit-shop"
             className="flex items-center gap-2 px-4 py-2.5 border border-stone-200 text-stone-600 hover:bg-stone-50 text-sm font-medium rounded-xl transition-colors">
             <Settings className="w-4 h-4" /> Edit Shop
           </Link>
-          {/* Add Product button */}
+          <Link to="/import"
+            className="flex items-center gap-2 px-4 py-2.5 border border-green-200 text-green-700 hover:bg-green-50 text-sm font-medium rounded-xl transition-colors">
+            <Upload className="w-4 h-4" /> Bulk Import
+          </Link>
+          <Link to="/export"
+            className="flex items-center gap-2 px-4 py-2.5 border border-indigo-200 text-indigo-700 hover:bg-indigo-50 text-sm font-medium rounded-xl transition-colors">
+            <FileDown className="w-4 h-4" /> Export
+          </Link>
+          
           <Link to="/add-product"
             className="flex items-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold rounded-xl transition-colors">
             <Plus className="w-4 h-4" /> Add Product
@@ -114,7 +117,11 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* ── Low Stock Alert Banner ── */}
+
+      {shop && (
+        <ShopStatusPanel shop={shop} onUpdate={fetchShop} />
+      )}
+
       {lowStockProducts.length > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
           <div className="flex items-start gap-3">
@@ -139,7 +146,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* ── Out of Stock Banner ── */}
       {outOfStock > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
           <div className="flex items-center gap-3">
@@ -152,7 +158,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* ── Stats Cards ── */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: "Total Products", value: products.length,  icon: Package,       color: "blue"   },
@@ -176,7 +181,6 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* ── Products Table ── */}
       <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-stone-100 flex items-center justify-between">
           <h2 className="font-display font-semibold text-lg text-stone-800">Your Products</h2>

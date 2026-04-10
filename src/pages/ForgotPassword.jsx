@@ -7,7 +7,6 @@ import { ShoppingBag, Mail, KeyRound, Eye, EyeOff, ArrowLeft } from "lucide-reac
 const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  // Step 1 = enter email, Step 2 = enter OTP + new password
   const [step, setStep]           = useState(1);
   const [email, setEmail]         = useState("");
   const [otp, setOtp]             = useState("");
@@ -15,9 +14,8 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPass, setShowPass]   = useState(false);
   const [loading, setLoading]     = useState(false);
-  const [devOtp, setDevOtp]       = useState(""); // shown in dev mode
+  const [devOtp, setDevOtp]       = useState(""); 
 
-  // Step 1 — request OTP
   const handleRequestOtp = async (e) => {
     e.preventDefault();
     if (!email) return toast.error("Enter your email");
@@ -37,7 +35,6 @@ const ForgotPassword = () => {
     }
   };
 
-  // Step 2 — verify OTP and reset password
   const handleResetPassword = async (e) => {
     e.preventDefault();
     if (!otp) return toast.error("Enter the OTP");
@@ -60,7 +57,6 @@ const ForgotPassword = () => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
 
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 h-14 bg-orange-500 rounded-2xl mb-4 shadow-lg shadow-orange-200">
             <ShoppingBag className="w-7 h-7 text-white" />
@@ -74,8 +70,6 @@ const ForgotPassword = () => {
               : `OTP sent to ${email}`}
           </p>
         </div>
-
-        {/* Step indicators */}
         <div className="flex items-center gap-2 mb-6">
           {[1, 2].map((s) => (
             <div key={s} className={`flex-1 h-1.5 rounded-full transition-colors
@@ -85,7 +79,6 @@ const ForgotPassword = () => {
 
         <div className="bg-white rounded-3xl shadow-xl shadow-stone-100 border border-stone-100 p-8">
 
-          {/* ── Step 1: Enter Email ── */}
           {step === 1 && (
             <form onSubmit={handleRequestOtp} className="space-y-5">
               <div>
@@ -109,12 +102,9 @@ const ForgotPassword = () => {
               </button>
             </form>
           )}
-
-          {/* ── Step 2: Enter OTP + New Password ── */}
           {step === 2 && (
             <form onSubmit={handleResetPassword} className="space-y-5">
 
-              {/* Dev OTP hint */}
               {devOtp && (
                 <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex items-center gap-2">
                   <KeyRound className="w-4 h-4 text-amber-600 shrink-0" />
@@ -126,7 +116,6 @@ const ForgotPassword = () => {
                 </div>
               )}
 
-              {/* OTP input */}
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1.5">
                   Enter OTP
@@ -147,7 +136,6 @@ const ForgotPassword = () => {
                 </p>
               </div>
 
-              {/* New Password */}
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1.5">
                   New Password
@@ -167,7 +155,6 @@ const ForgotPassword = () => {
                 </div>
               </div>
 
-              {/* Confirm Password */}
               <div>
                 <label className="block text-sm font-medium text-stone-700 mb-1.5">
                   Confirm New Password
@@ -192,7 +179,6 @@ const ForgotPassword = () => {
                 {loading ? "Resetting..." : "Reset Password"}
               </button>
 
-              {/* Back button */}
               <button type="button" onClick={() => setStep(1)}
                 className="w-full flex items-center justify-center gap-2 text-sm text-stone-500 hover:text-stone-700 transition-colors">
                 <ArrowLeft className="w-4 h-4" /> Back to email

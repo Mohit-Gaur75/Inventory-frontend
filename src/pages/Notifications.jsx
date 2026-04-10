@@ -56,7 +56,6 @@ const Notifications = () => {
   };
 
   const handleRead = async (notification) => {
-    // Mark as read
     if (!notification.isRead) {
       try {
         await markAsRead(notification._id);
@@ -67,7 +66,7 @@ const Notifications = () => {
         fetchUnreadCount();
       } catch {}
     }
-    // Navigate to link if exists
+    
     if (notification.link) navigate(notification.link);
   };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { addProduct } from "../api/axios";
 import toast from "react-hot-toast";
 import { Package } from "lucide-react";
+import MultiImageUpload from "../components/MultiImageUpload";
 
 const CATEGORIES = ["Grocery","Electronics","Clothing","Pharmacy","Hardware","Stationery","Food & Beverage","Other"];
 const UNITS = ["piece","kg","gram","litre","ml","dozen","pack","box"];
@@ -12,8 +13,9 @@ const AddProduct = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "", description: "", category: "Grocery",
-    price: "", stock: "", unit: "piece", image: "",
+    price: "", stock: "", unit: "piece",
   });
+  const [uploadedImages, setUploadedImages] = useState([]);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -21,7 +23,12 @@ const AddProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await addProduct(form);
+      const [primary, ...rest] = uploadedImages;
+      await addProduct({
+        ...form,
+        image:  primary || "",
+        images: rest,
+      });
       toast.success("Product added successfully!");
       navigate("/dashboard");
     } catch (err) {
@@ -44,6 +51,13 @@ const AddProduct = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-stone-200 p-6 space-y-5">
+
+        <MultiImageUpload
+          values={uploadedImages}
+          onChange={setUploadedImages}
+          maxImages={5}
+        />
+
         <div>
           <label className="block text-sm font-medium text-stone-700 mb-1.5">Product Name *</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} required
@@ -86,13 +100,6 @@ const AddProduct = () => {
               {UNITS.map(u => <option key={u}>{u}</option>)}
             </select>
           </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-stone-700 mb-1.5">Image URL (optional)</label>
-          <input type="url" name="image" value={form.image} onChange={handleChange}
-            placeholder="https://example.com/image.jpg"
-            className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
         </div>
 
         <div className="flex gap-3 pt-2">

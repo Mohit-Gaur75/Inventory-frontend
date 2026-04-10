@@ -35,8 +35,6 @@ const Favourites = () => {
           <p className="text-stone-500 text-sm">{favourites.length} saved product{favourites.length !== 1 ? "s" : ""}</p>
         </div>
       </div>
-
-      {/* Empty state */}
       {favourites.length === 0 ? (
         <div className="text-center py-20">
           <Heart className="w-16 h-16 text-stone-200 mx-auto mb-4" />
