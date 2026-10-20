@@ -13,8 +13,8 @@
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: #fafaf9;
-  color: #1c1917;
+  background-color: #ffffff;
+  color: #0f172a;
 }
 
 /* Smooth scroll */
@@ -22,6 +22,12 @@ html { scroll-behavior: smooth; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f5f5f4; }
-::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Selection color */
+::selection {
+  background-color: #ccfbf1;
+  color: #0f766e;
+}

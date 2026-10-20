@@ -77,11 +77,11 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-stone-700">
+        <label className="text-sm font-medium text-slate-700">
           Product Images
-          <span className="text-stone-400 font-normal ml-1">(first image = main)</span>
+          <span className="text-slate-400 font-normal ml-1">(first image = main cover)</span>
         </label>
-        <span className="text-xs text-stone-400">{images.length}/{maxImages}</span>
+        <span className="text-xs text-slate-400">{images.length}/{maxImages}</span>
       </div>
 
       <div
@@ -93,11 +93,10 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
         {images.map((img, i) => (
           <div
             key={i}
-            className="relative aspect-square rounded-xl overflow-hidden border-2 border-stone-200 group"
-            style={{ borderColor: i === 0 ? "#f97316" : undefined }}
+            className="relative aspect-square rounded-xl overflow-hidden border-2 border-slate-200 group"
+            style={{ borderColor: i === 0 ? "#0d9488" : undefined }}
           >
             <img src={img.url} alt={`img ${i + 1}`} className="w-full h-full object-cover" />
-
         
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all" />
 
@@ -105,7 +104,7 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
             <button
               type="button"
               onClick={() => handleRemove(i)}
-              className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center
+              className="absolute top-1 right-1 w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center
                          opacity-0 group-hover:opacity-100 transition-opacity shadow"
             >
               <X className="w-3 h-3" />
@@ -115,7 +114,7 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
               <button
                 type="button"
                 onClick={() => handleSetPrimary(i)}
-                title="Set as main image"
+                title="Set as main cover image"
                 className="absolute bottom-1 left-1 flex items-center gap-0.5 text-xs bg-black/60 text-white px-1.5 py-0.5 rounded
                            opacity-0 group-hover:opacity-100 transition-opacity"
               >
@@ -125,8 +124,8 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
 
           
             {i === 0 && (
-              <span className="absolute bottom-1 left-1 text-xs bg-orange-500 text-white px-1.5 py-0.5 rounded font-medium">
-                Main
+              <span className="absolute bottom-1 left-1 text-xs bg-teal-600 text-white px-1.5 py-0.5 rounded font-medium">
+                Cover
               </span>
             )}
           </div>
@@ -136,15 +135,15 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
         {images.length < maxImages && (
           <div
             onClick={() => fileRef.current?.click()}
-            className="aspect-square rounded-xl border-2 border-dashed border-stone-300 hover:border-orange-400
-                       hover:bg-orange-50 flex flex-col items-center justify-center cursor-pointer transition-all"
+            className="aspect-square rounded-xl border-2 border-dashed border-slate-300 hover:border-teal-500
+                       hover:bg-teal-50 flex flex-col items-center justify-center cursor-pointer transition-all"
           >
             {loading ? (
-              <Loader2 className="w-6 h-6 text-orange-400 animate-spin" />
+              <Loader2 className="w-6 h-6 text-teal-600 animate-spin" />
             ) : (
               <>
-                <Plus className="w-6 h-6 text-stone-400 mb-1" />
-                <span className="text-xs text-stone-400">Add Photo</span>
+                <Plus className="w-6 h-6 text-slate-400 mb-1" />
+                <span className="text-xs text-slate-500 font-medium">Add Photo</span>
               </>
             )}
           </div>
@@ -156,14 +155,14 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex items-center gap-1.5 px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold rounded-xl transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-xl transition-colors shadow-sm"
           >
             <Upload className="w-3.5 h-3.5" /> Upload Photos
           </button>
           <button
             type="button"
             onClick={() => cameraRef.current?.click()}
-            className="flex items-center gap-1.5 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-xl transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-xl transition-colors shadow-sm"
           >
             <Camera className="w-3.5 h-3.5" /> Take Photo
           </button>
@@ -188,7 +187,7 @@ const MultiImageUpload = ({ values = [], onChange, maxImages = 5 }) => {
       />
 
       {error && (
-        <p className="text-xs text-red-500 flex items-center gap-1">
+        <p className="text-xs text-rose-500 flex items-center gap-1">
           <X className="w-3 h-3" /> {error}
         </p>
       )}

@@ -12,7 +12,7 @@ const TYPE_CONFIG = {
   shop_activated:   { icon: CheckCircle,    color: "text-green-500"  },
   shop_deactivated: { icon: XCircle,        color: "text-red-500"    },
   product_added:    { icon: Store,          color: "text-blue-500"   },
-  welcome:          { icon: Bell,           color: "text-orange-500" },
+  welcome:          { icon: Bell,           color: "text-teal-600" },
 };
 
 const NotificationBell = () => {
@@ -84,7 +84,7 @@ const NotificationBell = () => {
       <button
         onClick={handleOpen}
         className={`relative p-2 rounded-lg transition-colors
-          ${open ? "bg-orange-50 text-orange-600" : "text-stone-600 hover:bg-stone-100"}`}
+          ${open ? "bg-teal-50 text-teal-700" : "text-slate-600 hover:bg-slate-100"}`}
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -96,21 +96,21 @@ const NotificationBell = () => {
 
 
       {open && (
-        <div className="absolute right-0 top-12 w-80 bg-white border border-stone-200 rounded-2xl shadow-xl shadow-stone-200/50 z-50 overflow-hidden">
+        <div className="absolute right-0 top-12 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 z-50 overflow-hidden">
 
       
-          <div className="px-4 py-3 border-b border-stone-100 flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
             <div>
-              <p className="font-semibold text-stone-800 text-sm">Notifications</p>
+              <p className="font-semibold text-slate-800 text-sm">Notifications</p>
               {unreadCount > 0 && (
-                <p className="text-xs text-stone-400">{unreadCount} unread</p>
+                <p className="text-xs text-slate-400">{unreadCount} unread</p>
               )}
             </div>
             <div className="flex items-center gap-2">
               {unreadCount > 0 && (
                 <button
                   onClick={handleMarkAll}
-                  className="text-xs text-blue-500 hover:text-blue-600 font-medium flex items-center gap-1"
+                  className="text-xs text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
                 >
                   <CheckCheck className="w-3.5 h-3.5" /> All read
                 </button>
@@ -122,12 +122,12 @@ const NotificationBell = () => {
           <div className="max-h-80 overflow-y-auto">
             {loading ? (
               <div className="py-8 text-center">
-                <div className="w-6 h-6 border-2 border-orange-200 border-t-orange-500 rounded-full animate-spin mx-auto" />
+                <div className="w-6 h-6 border-2 border-teal-200 border-t-teal-600 rounded-full animate-spin mx-auto" />
               </div>
             ) : notifications.length === 0 ? (
               <div className="py-10 text-center">
-                <Bell className="w-10 h-10 text-stone-200 mx-auto mb-2" />
-                <p className="text-sm text-stone-400">No notifications</p>
+                <Bell className="w-10 h-10 text-slate-200 mx-auto mb-2" />
+                <p className="text-sm text-slate-400">No notifications</p>
               </div>
             ) : (
               notifications.map((n) => {
@@ -137,23 +137,23 @@ const NotificationBell = () => {
                   <div
                     key={n._id}
                     onClick={() => handleNotificationClick(n)}
-                    className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-stone-50 transition-colors border-b border-stone-50 last:border-0
-                      ${!n.isRead ? "bg-orange-50/60" : ""}`}
+                    className={`flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-0
+                      ${!n.isRead ? "bg-teal-50/60" : ""}`}
                   >
                     <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${config.color}`} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <p className="text-xs font-semibold text-stone-800 truncate">
+                        <p className="text-xs font-semibold text-slate-800 truncate">
                           {n.title}
                         </p>
                         {!n.isRead && (
-                          <span className="w-1.5 h-1.5 bg-orange-500 rounded-full shrink-0" />
+                          <span className="w-1.5 h-1.5 bg-teal-600 rounded-full shrink-0" />
                         )}
                       </div>
-                      <p className="text-xs text-stone-500 mt-0.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
                         {n.message}
                       </p>
-                      <p className="text-xs text-stone-400 mt-1">{timeAgo(n.createdAt)}</p>
+                      <p className="text-xs text-slate-400 mt-1">{timeAgo(n.createdAt)}</p>
                     </div>
                   </div>
                 );
@@ -162,10 +162,10 @@ const NotificationBell = () => {
           </div>
 
       
-          <div className="px-4 py-2.5 border-t border-stone-100 bg-stone-50">
+          <div className="px-4 py-2.5 border-t border-slate-100 bg-slate-50">
             <button
               onClick={() => { setOpen(false); navigate("/notifications"); }}
-              className="w-full text-center text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors py-1"
+              className="w-full text-center text-xs font-semibold text-teal-600 hover:text-teal-700 transition-colors py-1"
             >
               View all notifications →
             </button>

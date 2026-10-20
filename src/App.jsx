@@ -37,7 +37,7 @@ import AdminReviews   from "./pages/admin/AdminReviews";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 
 const MainLayout = ({ children }) => (
-  <div className="min-h-screen bg-stone-50">
+  <div className="min-h-screen bg-white">
     <Navbar />
     <main>{children}</main>
   </div>

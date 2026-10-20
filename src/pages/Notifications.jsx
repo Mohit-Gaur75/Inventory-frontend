@@ -15,14 +15,14 @@ import toast from "react-hot-toast";
 
 // Icon + color per notification type
 const TYPE_CONFIG = {
-  new_review:       { icon: Star,          color: "bg-amber-100 text-amber-600",  label: "Review"       },
-  low_stock:        { icon: AlertTriangle,  color: "bg-amber-100 text-amber-600",  label: "Low Stock"    },
-  out_of_stock:     { icon: AlertCircle,    color: "bg-red-100 text-red-600",      label: "Out of Stock" },
-  new_favourite:    { icon: Heart,          color: "bg-red-100 text-red-500",      label: "Favourite"    },
-  shop_activated:   { icon: CheckCircle,    color: "bg-green-100 text-green-600",  label: "Shop"         },
-  shop_deactivated: { icon: XCircle,        color: "bg-red-100 text-red-600",      label: "Shop"         },
-  product_added:    { icon: Store,          color: "bg-blue-100 text-blue-600",    label: "Product"      },
-  welcome:          { icon: Bell,           color: "bg-orange-100 text-orange-500",label: "Welcome"      },
+  new_review:       { icon: Star,          color: "bg-amber-100 text-amber-700",  label: "Review"       },
+  low_stock:        { icon: AlertTriangle,  color: "bg-amber-100 text-amber-700",  label: "Low Stock"    },
+  out_of_stock:     { icon: AlertCircle,    color: "bg-rose-100 text-rose-700",    label: "Out of Stock" },
+  new_favourite:    { icon: Heart,          color: "bg-rose-100 text-rose-600",    label: "Favourite"    },
+  shop_activated:   { icon: CheckCircle,    color: "bg-emerald-100 text-emerald-700", label: "Shop"     },
+  shop_deactivated: { icon: XCircle,        color: "bg-rose-100 text-rose-700",    label: "Shop"         },
+  product_added:    { icon: Store,          color: "bg-teal-100 text-teal-700",    label: "Product"      },
+  welcome:          { icon: Bell,           color: "bg-teal-100 text-teal-700",    label: "Welcome"      },
 };
 
 const Notifications = () => {
@@ -119,24 +119,24 @@ const Notifications = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 space-y-5">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-5">
 
       {/* ── Header ── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center relative">
-            <Bell className="w-5 h-5 text-orange-500" />
+          <div className="w-10 h-10 bg-teal-50 border border-teal-100 rounded-xl flex items-center justify-center relative">
+            <Bell className="w-5 h-5 text-teal-600" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}
           </div>
           <div>
-            <h1 className="font-display font-bold text-2xl text-stone-800">
-              Notifications
+            <h1 className="font-display font-bold text-2xl text-slate-900">
+              Community & Account Updates
             </h1>
-            <p className="text-stone-500 text-sm">
+            <p className="text-slate-500 text-sm">
               {total} total · {unreadCount} unread
             </p>
           </div>
@@ -147,7 +147,7 @@ const Notifications = () => {
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}
-              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-xl border border-blue-200 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-teal-700 hover:bg-teal-50 rounded-xl border border-teal-200 transition-colors"
             >
               <CheckCheck className="w-4 h-4" /> Mark all read
             </button>
@@ -155,7 +155,7 @@ const Notifications = () => {
           {total > 0 && (
             <button
               onClick={handleClearAll}
-              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl border border-red-200 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 rounded-xl border border-rose-200 transition-colors"
             >
               <Trash2 className="w-4 h-4" /> Clear all
             </button>
@@ -164,21 +164,21 @@ const Notifications = () => {
       </div>
 
       {/* ── Notifications List ── */}
-      <div className="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         {loading ? (
           <Loader text="Loading notifications..." />
         ) : notifications.length === 0 ? (
           <div className="text-center py-20">
-            <Bell className="w-16 h-16 text-stone-200 mx-auto mb-4" />
-            <h2 className="font-display font-semibold text-xl text-stone-600 mb-2">
+            <Bell className="w-16 h-16 text-slate-200 mx-auto mb-4" />
+            <h2 className="font-display font-semibold text-xl text-slate-700 mb-2">
               All caught up!
             </h2>
-            <p className="text-stone-400 text-sm">
-              No notifications yet. We'll let you know when something happens.
+            <p className="text-slate-400 text-sm">
+              No new alerts or direct order updates right now.
             </p>
           </div>
         ) : (
-          <div className="divide-y divide-stone-100">
+          <div className="divide-y divide-slate-100">
             {notifications.map((n) => {
               const config = TYPE_CONFIG[n.type] || TYPE_CONFIG.welcome;
               const Icon   = config.icon;
@@ -187,8 +187,8 @@ const Notifications = () => {
                 <div
                   key={n._id}
                   onClick={() => handleRead(n)}
-                  className={`flex items-start gap-4 px-5 py-4 cursor-pointer transition-all hover:bg-stone-50
-                    ${!n.isRead ? "bg-orange-50/50 border-l-4 border-l-orange-400" : ""}`}
+                  className={`flex items-start gap-4 px-5 py-4 cursor-pointer transition-all hover:bg-slate-50
+                    ${!n.isRead ? "bg-teal-50/40 border-l-4 border-l-teal-600" : ""}`}
                 >
                   {/* Icon */}
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${config.color}`}>
@@ -200,20 +200,20 @@ const Notifications = () => {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className={`text-sm font-semibold ${!n.isRead ? "text-stone-900" : "text-stone-700"}`}>
+                          <p className={`text-sm font-semibold ${!n.isRead ? "text-slate-900" : "text-slate-700"}`}>
                             {n.title}
                           </p>
-                          <span className="text-xs px-2 py-0.5 bg-stone-100 text-stone-500 rounded-full">
+                          <span className="text-xs px-2 py-0.5 bg-slate-100 text-slate-600 rounded-full">
                             {config.label}
                           </span>
                           {!n.isRead && (
-                            <span className="w-2 h-2 bg-orange-500 rounded-full shrink-0" />
+                            <span className="w-2 h-2 bg-teal-600 rounded-full shrink-0" />
                           )}
                         </div>
-                        <p className="text-sm text-stone-500 mt-0.5 leading-relaxed">
+                        <p className="text-sm text-slate-500 mt-0.5 leading-relaxed">
                           {n.message}
                         </p>
-                        <p className="text-xs text-stone-400 mt-1">
+                        <p className="text-xs text-slate-400 mt-1">
                           {timeAgo(n.createdAt)}
                         </p>
                       </div>
@@ -221,7 +221,7 @@ const Notifications = () => {
                       {/* Delete button */}
                       <button
                         onClick={(e) => handleDelete(n._id, e)}
-                        className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                        className="p-1.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors shrink-0"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -235,22 +235,22 @@ const Notifications = () => {
 
         {/* ── Pagination ── */}
         {totalPages > 1 && (
-          <div className="px-5 py-3 border-t border-stone-100 flex items-center justify-between">
-            <p className="text-xs text-stone-400">
+          <div className="px-5 py-3 border-t border-slate-100 flex items-center justify-between">
+            <p className="text-xs text-slate-400">
               Page {page} of {totalPages}
             </p>
             <div className="flex gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="p-1.5 rounded-lg border border-stone-200 disabled:opacity-40 hover:bg-stone-50 transition-colors"
+                className="p-1.5 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="p-1.5 rounded-lg border border-stone-200 disabled:opacity-40 hover:bg-stone-50 transition-colors"
+                className="p-1.5 rounded-lg border border-slate-200 disabled:opacity-40 hover:bg-slate-50 transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

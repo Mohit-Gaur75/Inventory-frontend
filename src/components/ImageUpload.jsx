@@ -27,7 +27,6 @@ const ImageUpload = ({
     setError("");
     setLoading(true);
     try {
-      
       if (oldFilename) { try { await deleteImage(oldFilename); } catch {} }
 
       const formData = new FormData();
@@ -62,13 +61,12 @@ const ImageUpload = ({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-stone-700">{label}</label>
+      <label className="block text-sm font-semibold text-slate-700">{label}</label>
 
-     
       {preview ? (
-        <div className="relative rounded-2xl overflow-hidden border border-stone-200 bg-stone-50" style={{ height: "200px" }}>
+        <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50" style={{ height: "200px" }}>
           <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-all flex items-center justify-center opacity-0 hover:opacity-100">
             <button type="button" onClick={handleRemove}
               className="w-10 h-10 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors">
               <X className="w-5 h-5" />
@@ -81,48 +79,46 @@ const ImageUpload = ({
           )}
         </div>
       ) : (
-        
         <div
           onDrop={handleDrop}
           onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           className={`relative rounded-2xl border-2 border-dashed transition-all cursor-pointer
-            ${dragging ? "border-orange-400 bg-orange-50 scale-[1.01]" : "border-stone-300 hover:border-orange-400 hover:bg-orange-50"}`}
+            ${dragging ? "border-teal-500 bg-teal-50/50 scale-[1.01]" : "border-slate-300 hover:border-teal-400 hover:bg-teal-50/30"}`}
           style={{ height: "180px" }}
         >
           {loading ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <Loader2 className="w-8 h-8 text-orange-400 animate-spin mb-2" />
-              <p className="text-sm text-stone-500">Uploading & compressing...</p>
+              <Loader2 className="w-8 h-8 text-teal-600 animate-spin mb-2" />
+              <p className="text-sm font-medium text-slate-500">Uploading & compressing...</p>
             </div>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-              <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                <Upload className="w-6 h-6 text-orange-500" />
+              <div className="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center border border-teal-100">
+                <Upload className="w-6 h-6 text-teal-600" />
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-stone-600">
+                <p className="text-sm font-medium text-slate-600">
                   Drop image here or{" "}
                   <button type="button" onClick={() => fileRef.current?.click()}
-                    className="text-orange-500 hover:underline">browse</button>
+                    className="text-teal-600 hover:text-teal-700 font-semibold hover:underline">browse</button>
                 </p>
-                <p className="text-xs text-stone-400 mt-0.5">JPEG, PNG, WebP · Max 5MB</p>
+                <p className="text-xs text-slate-400 mt-0.5">JPEG, PNG, WebP · Max 5MB</p>
               </div>
 
-            
               <div className="flex gap-2">
                 <button type="button" onClick={() => fileRef.current?.click()}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold rounded-lg transition-colors">
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold rounded-lg transition-colors shadow-sm">
                   <Upload className="w-3.5 h-3.5" /> Upload File
                 </button>
                 {showCamera && (
                   <button type="button" onClick={() => cameraRef.current?.click()}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold rounded-lg transition-colors">
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors shadow-sm">
                     <Camera className="w-3.5 h-3.5" /> Camera
                   </button>
                 )}
                 <button type="button" onClick={() => setUrlInput(!urlInput)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-stone-200 text-stone-600 text-xs font-medium rounded-lg hover:bg-stone-50 transition-colors">
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-600 text-xs font-medium rounded-lg hover:bg-slate-50 transition-colors">
                   <Link2 className="w-3.5 h-3.5" /> URL
                 </button>
               </div>
@@ -131,11 +127,10 @@ const ImageUpload = ({
         </div>
       )}
 
-     
       {urlInput && !preview && (
         <div className="flex gap-2">
           <input type="url" placeholder="https://example.com/image.jpg"
-            className="flex-1 px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             onKeyDown={(e) => {
               if (e.key === "Enter" && e.target.value) {
                 setPreview(e.target.value);
@@ -145,13 +140,12 @@ const ImageUpload = ({
             }}
           />
           <button type="button" onClick={() => setUrlInput(false)}
-            className="px-3 py-2 border border-stone-200 rounded-xl text-stone-500 hover:bg-stone-50 text-sm">
+            className="px-3 py-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 text-sm">
             Cancel
           </button>
         </div>
       )}
 
-      
       <input ref={fileRef} type="file" accept="image/jpeg,image/jpg,image/png,image/webp"
         className="hidden" onChange={(e) => handleUpload(e.target.files[0])} />
       <input ref={cameraRef} type="file" accept="image/*" capture="environment"

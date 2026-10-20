@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getMyProducts, getMyShop } from "../api/axios";
 import Loader from "../components/Loader";
 import {
@@ -20,7 +20,7 @@ const defaultOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: { position: "bottom", labels: { font: { family: "Plus Jakarta Sans", size: 11 }, padding: 16 } },
-    tooltip: { backgroundColor: "#1c1917", titleFont: { family: "Plus Jakarta Sans" }, bodyFont: { family: "Plus Jakarta Sans" }, padding: 10, cornerRadius: 8 },
+    tooltip: { backgroundColor: "#0f172a", titleFont: { family: "Plus Jakarta Sans" }, bodyFont: { family: "Plus Jakarta Sans" }, padding: 10, cornerRadius: 8 },
   },
 };
 
@@ -60,7 +60,6 @@ const Analytics = () => {
   }, {});
 
   const topByValue = [...products].sort((a, b) => (b.price * b.stock) - (a.price * a.stock)).slice(0, 8);
-
   const topByPrice = [...products].sort((a, b) => b.price - a.price).slice(0, 8);
 
   const stockBuckets = {
@@ -83,77 +82,72 @@ const Analytics = () => {
     return d.toLocaleDateString("en-IN", { month: "short", day: "numeric" });
   });
 
-  const avgPriceTrend = last7Days.map((_, i) => {
+  const avgPriceTrend = last7Days.map(() => {
     const base = parseFloat(avgPrice);
     const variance = (Math.random() - 0.5) * base * 0.1;
     return Math.max(0, base + variance).toFixed(0);
   });
 
-  const inventoryValueTrend = last7Days.map((_, i) => {
+  const inventoryValueTrend = last7Days.map(() => {
     const base = totalValue;
     const variance = (Math.random() - 0.5) * base * 0.05;
     return Math.max(0, base + variance).toFixed(0);
   });
-
 
   const categoryChartData = {
     labels: Object.keys(categoryMap),
     datasets: [{
       data: Object.values(categoryMap),
       backgroundColor: [
-        "#f97316", "#3b82f6", "#8b5cf6", "#10b981",
-        "#f59e0b", "#ef4444", "#64748b", "#06b6d4",
+        "#0d9488", "#0284c7", "#10b981", "#6366f1",
+        "#f59e0b", "#ec4899", "#64748b", "#14b8a6",
       ],
       borderWidth: 2,
       borderColor: "#fff",
     }],
   };
 
-  
   const stockChartData = {
     labels: topByValue.map(p => p.name.length > 12 ? p.name.slice(0, 12) + "..." : p.name),
     datasets: [{
       label: "Stock Quantity",
       data: topByValue.map(p => p.stock),
       backgroundColor: topByValue.map(p =>
-        p.stock === 0 ? "#fca5a5" :
-        p.stock <= 5  ? "#fde68a" : "#86efac"
+        p.stock === 0 ? "#fda4af" :
+        p.stock <= 5  ? "#fde68a" : "#6ee7b7"
       ),
       borderRadius: 6,
       borderWidth: 0,
     }],
   };
 
-  
   const priceChartData = {
     labels: topByPrice.map(p => p.name.length > 12 ? p.name.slice(0, 12) + "..." : p.name),
     datasets: [{
       label: "Price (₹)",
       data: topByPrice.map(p => p.price),
-      backgroundColor: "#f97316",
+      backgroundColor: "#0d9488",
       borderRadius: 6,
       borderWidth: 0,
     }],
   };
 
- 
   const priceTrendData = {
     labels: last7Days,
     datasets: [
       {
         label: "Avg Price (₹)",
         data: avgPriceTrend,
-        borderColor: "#f97316",
-        backgroundColor: "rgba(249, 115, 22, 0.1)",
+        borderColor: "#0d9488",
+        backgroundColor: "rgba(13, 148, 136, 0.1)",
         tension: 0.4,
         fill: true,
-        pointBackgroundColor: "#f97316",
+        pointBackgroundColor: "#0d9488",
         pointRadius: 4,
       },
     ],
   };
 
- 
   const inventoryValueData = {
     labels: last7Days,
     datasets: [{
@@ -172,36 +166,34 @@ const Analytics = () => {
     labels: Object.keys(stockBuckets),
     datasets: [{
       data: Object.values(stockBuckets),
-      backgroundColor: ["#fca5a5", "#fde68a", "#93c5fd", "#86efac"],
+      backgroundColor: ["#fda4af", "#fde68a", "#bae6fd", "#6ee7b7"],
       borderWidth: 2,
       borderColor: "#fff",
     }],
   };
 
-  
   const priceRangeData = {
     labels: Object.keys(priceRanges),
     datasets: [{
       label: "Number of Products",
       data: Object.values(priceRanges),
-      backgroundColor: ["#c7d2fe", "#a5b4fc", "#818cf8", "#6366f1"],
+      backgroundColor: ["#ccfbf1", "#99f6e4", "#5eead4", "#0d9488"],
       borderRadius: 6,
       borderWidth: 0,
     }],
   };
 
- 
   const radarData = {
     labels: Object.keys(categoryMap).slice(0, 6),
     datasets: [{
       label: "Products",
       data: Object.values(categoryMap).slice(0, 6),
-      backgroundColor: "rgba(249, 115, 22, 0.2)",
-      borderColor: "#f97316",
-      pointBackgroundColor: "#f97316",
+      backgroundColor: "rgba(13, 148, 136, 0.2)",
+      borderColor: "#0d9488",
+      pointBackgroundColor: "#0d9488",
       pointBorderColor: "#fff",
       pointHoverBackgroundColor: "#fff",
-      pointHoverBorderColor: "#f97316",
+      pointHoverBorderColor: "#0d9488",
     }],
   };
 
@@ -214,65 +206,61 @@ const Analytics = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
-
-    
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
-          <BarChart2 className="w-5 h-5 text-purple-600" />
+        <div className="w-12 h-12 bg-teal-50 border border-teal-100 rounded-2xl flex items-center justify-center">
+          <BarChart2 className="w-6 h-6 text-teal-600" />
         </div>
         <div>
-          <h1 className="font-display font-bold text-2xl text-stone-800">Analytics</h1>
-          <p className="text-stone-500 text-sm">{shop?.name} · Inventory Insights</p>
+          <h1 className="font-display font-bold text-2xl text-slate-900">Analytics & Insights</h1>
+          <p className="text-slate-500 text-sm">{shop?.name ? `${shop.name} · ` : ""}Inventory & performance metrics</p>
         </div>
       </div>
 
-      
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Total Products",    value: totalProducts,                  icon: Package,    color: "blue",   sub: `${lowStock} low stock`         },
-          { label: "Inventory Value",   value: `₹${totalValue.toLocaleString()}`, icon: DollarSign, color: "green",  sub: "price × stock"               },
-          { label: "Out of Stock",      value: outOfStock,                     icon: AlertCircle,color: "red",    sub: `${inStock} in stock`            },
-          { label: "Avg. Price",        value: `₹${avgPrice}`,                 icon: Tag,        color: "orange", sub: `₹${minPrice} – ₹${maxPrice}`   },
+          { label: "Total Products",    value: totalProducts,                     icon: Package,    color: "blue",   sub: `${lowStock} low stock`         },
+          { label: "Inventory Value",   value: `₹${totalValue.toLocaleString()}`,  icon: DollarSign, color: "teal",   sub: "retail value"                 },
+          { label: "Out of Stock",      value: outOfStock,                        icon: AlertCircle,color: "red",    sub: `${inStock} in stock`            },
+          { label: "Avg. Price",        value: `₹${avgPrice}`,                    icon: Tag,        color: "emerald",sub: `₹${minPrice} – ₹${maxPrice}`   },
         ].map(({ label, value, icon: Icon, color, sub }) => (
-          <div key={label} className="bg-white border border-stone-200 rounded-2xl p-5">
-            <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-3
-              ${color==="blue"?"bg-blue-100":color==="green"?"bg-green-100":color==="red"?"bg-red-100":"bg-orange-100"}`}>
-              <Icon className={`w-4 h-4 ${color==="blue"?"text-blue-600":color==="green"?"text-green-600":color==="red"?"text-red-500":"text-orange-500"}`} />
+          <div key={label} className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3
+              ${color==="blue"?"bg-sky-50 text-sky-600 border border-sky-100":
+                color==="teal"?"bg-teal-50 text-teal-600 border border-teal-100":
+                color==="red"?"bg-rose-50 text-rose-600 border border-rose-100":
+                "bg-emerald-50 text-emerald-600 border border-emerald-100"}`}>
+              <Icon className="w-5 h-5" />
             </div>
-            <p className="text-2xl font-display font-bold text-stone-800">{value}</p>
-            <p className="text-xs font-medium text-stone-600 mt-0.5">{label}</p>
-            <p className="text-xs text-stone-400">{sub}</p>
+            <p className="text-2xl font-display font-bold text-slate-900">{value}</p>
+            <p className="text-xs font-semibold text-slate-600 mt-0.5">{label}</p>
+            <p className="text-xs text-slate-400">{sub}</p>
           </div>
         ))}
       </div>
 
-      
-      <div className="flex gap-1 bg-stone-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit border border-slate-200">
         {tabs.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-all
+            className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all
               ${activeTab === id
-                ? "bg-white text-stone-800 shadow-sm"
-                : "text-stone-500 hover:text-stone-700"}`}
+                ? "bg-white text-teal-700 shadow-sm"
+                : "text-slate-600 hover:text-slate-900"}`}
           >
             {label}
           </button>
         ))}
       </div>
 
-    
       {activeTab === "overview" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <Tag className="w-4 h-4 text-orange-500" /> Products by Category
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <Tag className="w-4 h-4 text-teal-600" /> Products by Category
             </h2>
             {Object.keys(categoryMap).length === 0 ? (
-              <p className="text-stone-400 text-sm text-center py-8">No products yet</p>
+              <p className="text-slate-400 text-sm text-center py-8">No products yet</p>
             ) : (
               <div style={{ height: "260px" }}>
                 <Doughnut data={categoryChartData} options={{ ...defaultOptions, cutout: "65%" }} />
@@ -280,23 +268,21 @@ const Analytics = () => {
             )}
           </div>
 
-          
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <Package className="w-4 h-4 text-blue-500" /> Stock Distribution
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <Package className="w-4 h-4 text-sky-600" /> Stock Distribution
             </h2>
             <div style={{ height: "260px" }}>
               <Doughnut data={stockDistData} options={{ ...defaultOptions, cutout: "65%" }} />
             </div>
           </div>
 
-       
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
               <Star className="w-4 h-4 text-amber-500" /> Category Performance Radar
             </h2>
             {Object.keys(categoryMap).length < 3 ? (
-              <p className="text-stone-400 text-sm text-center py-8">Add products in 3+ categories to see radar</p>
+              <p className="text-slate-400 text-sm text-center py-8">Add products in 3+ categories to view radar</p>
             ) : (
               <div style={{ height: "260px" }}>
                 <Radar data={radarData} options={{
@@ -313,10 +299,9 @@ const Analytics = () => {
             )}
           </div>
 
-         
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-purple-500" /> Price Range Distribution
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-teal-600" /> Price Range Distribution
             </h2>
             <div style={{ height: "260px" }}>
               <Bar data={priceRangeData} options={{
@@ -332,17 +317,14 @@ const Analytics = () => {
         </div>
       )}
 
-    
       {activeTab === "products" && (
         <div className="space-y-6">
-
-         
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <Package className="w-4 h-4 text-blue-500" /> Stock Levels — Top 8 Products
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <Package className="w-4 h-4 text-teal-600" /> Stock Levels — Top 8 Products
             </h2>
             {products.length === 0 ? (
-              <p className="text-stone-400 text-sm text-center py-8">No products yet</p>
+              <p className="text-slate-400 text-sm text-center py-8">No products yet</p>
             ) : (
               <div style={{ height: "300px" }}>
                 <Bar data={stockChartData} options={{
@@ -374,48 +356,46 @@ const Analytics = () => {
                 }} />
               </div>
             )}
-          
-            <div className="flex items-center gap-4 mt-3 text-xs text-stone-500">
-              <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-300 inline-block" /> Out of Stock</span>
+            <div className="flex items-center gap-4 mt-3 text-xs text-slate-500 font-medium">
+              <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-rose-300 inline-block" /> Out of Stock</span>
               <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-yellow-300 inline-block" /> Low Stock (≤5)</span>
-              <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-green-300 inline-block" /> In Stock</span>
+              <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-emerald-300 inline-block" /> In Stock</span>
             </div>
           </div>
 
-          
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-green-500" /> Top 5 by Inventory Value
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-600" /> Top 5 by Inventory Value
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-stone-50 text-stone-500 text-xs uppercase">
+                <thead className="bg-slate-50 text-slate-500 text-xs uppercase font-semibold">
                   <tr>
-                    <th className="px-4 py-2 text-left">Rank</th>
-                    <th className="px-4 py-2 text-left">Product</th>
-                    <th className="px-4 py-2 text-left">Category</th>
-                    <th className="px-4 py-2 text-right">Price</th>
-                    <th className="px-4 py-2 text-right">Stock</th>
-                    <th className="px-4 py-2 text-right">Total Value</th>
+                    <th className="px-4 py-2.5 text-left">Rank</th>
+                    <th className="px-4 py-2.5 text-left">Product</th>
+                    <th className="px-4 py-2.5 text-left">Category</th>
+                    <th className="px-4 py-2.5 text-right">Price</th>
+                    <th className="px-4 py-2.5 text-right">Stock</th>
+                    <th className="px-4 py-2.5 text-right">Total Value</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-stone-100">
+                <tbody className="divide-y divide-slate-100">
                   {[...products]
                     .sort((a, b) => (b.price * b.stock) - (a.price * a.stock))
                     .slice(0, 5)
                     .map((p, i) => (
-                      <tr key={p._id} className="hover:bg-stone-50">
+                      <tr key={p._id} className="hover:bg-slate-50 transition-colors">
                         <td className="px-4 py-3">
                           <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
-                            ${i === 0 ? "bg-amber-100 text-amber-700" : i === 1 ? "bg-stone-100 text-stone-600" : "bg-stone-50 text-stone-400"}`}>
+                            ${i === 0 ? "bg-amber-100 text-amber-800" : i === 1 ? "bg-slate-200 text-slate-700" : "bg-slate-100 text-slate-500"}`}>
                             {i + 1}
                           </span>
                         </td>
-                        <td className="px-4 py-3 font-medium text-stone-800">{p.name}</td>
-                        <td className="px-4 py-3 text-stone-500">{p.category}</td>
-                        <td className="px-4 py-3 text-right text-orange-600 font-semibold">₹{p.price}</td>
-                        <td className="px-4 py-3 text-right text-stone-600">{p.stock} {p.unit}</td>
-                        <td className="px-4 py-3 text-right text-green-600 font-bold">
+                        <td className="px-4 py-3 font-semibold text-slate-800">{p.name}</td>
+                        <td className="px-4 py-3 text-slate-500 text-xs">{p.category}</td>
+                        <td className="px-4 py-3 text-right text-teal-700 font-bold">₹{p.price}</td>
+                        <td className="px-4 py-3 text-right text-slate-600">{p.stock} {p.unit}</td>
+                        <td className="px-4 py-3 text-right text-emerald-700 font-bold">
                           ₹{(p.price * p.stock).toLocaleString()}
                         </td>
                       </tr>
@@ -427,13 +407,11 @@ const Analytics = () => {
         </div>
       )}
 
-      
       {activeTab === "pricing" && (
         <div className="space-y-6">
-
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
-            <h2 className="font-display font-semibold text-lg text-stone-800 mb-4 flex items-center gap-2">
-              <DollarSign className="w-4 h-4 text-orange-500" /> Price Comparison — Top 8 Products
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+            <h2 className="font-display font-semibold text-lg text-slate-900 mb-4 flex items-center gap-2">
+              <DollarSign className="w-4 h-4 text-teal-600" /> Price Comparison — Top 8 Products
             </h2>
             <div style={{ height: "300px" }}>
               <Bar data={priceChartData} options={{
@@ -456,37 +434,33 @@ const Analytics = () => {
             </div>
           </div>
 
-         
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { label: "Highest Price",  value: `₹${maxPrice}`, product: products.find(p => p.price === maxPrice)?.name, color: "red"    },
-              { label: "Average Price",  value: `₹${avgPrice}`, product: "Across all products",                          color: "orange" },
-              { label: "Lowest Price",   value: `₹${minPrice}`, product: products.find(p => p.price === minPrice)?.name, color: "green"  },
+              { label: "Highest Price",  value: `₹${maxPrice}`, product: products.find(p => p.price === maxPrice)?.name, color: "rose"    },
+              { label: "Average Price",  value: `₹${avgPrice}`, product: "Across all products",                          color: "teal" },
+              { label: "Lowest Price",   value: `₹${minPrice}`, product: products.find(p => p.price === minPrice)?.name, color: "emerald"  },
             ].map(({ label, value, product, color }) => (
-              <div key={label} className="bg-white border border-stone-200 rounded-2xl p-5 text-center">
+              <div key={label} className="bg-white border border-slate-200 rounded-2xl p-5 text-center shadow-sm">
                 <p className={`text-3xl font-display font-bold
-                  ${color === "red" ? "text-red-500" : color === "green" ? "text-green-600" : "text-orange-500"}`}>
+                  ${color === "rose" ? "text-rose-600" : color === "emerald" ? "text-emerald-600" : "text-teal-600"}`}>
                   {value}
                 </p>
-                <p className="text-sm font-semibold text-stone-700 mt-1">{label}</p>
-                <p className="text-xs text-stone-400 mt-0.5 truncate">{product}</p>
+                <p className="text-sm font-semibold text-slate-800 mt-1">{label}</p>
+                <p className="text-xs text-slate-400 mt-0.5 truncate">{product}</p>
               </div>
             ))}
           </div>
         </div>
       )}
 
-    
       {activeTab === "trends" && (
         <div className="space-y-6">
-
-          
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold text-lg text-stone-800 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-orange-500" /> Average Price Trend (Last 7 Days)
+              <h2 className="font-display font-semibold text-lg text-slate-900 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-teal-600" /> Average Price Trend (Last 7 Days)
               </h2>
-              <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium">
+              <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium border border-slate-200">
                 Simulated data
               </span>
             </div>
@@ -508,12 +482,12 @@ const Analytics = () => {
             </div>
           </div>
 
-          <div className="bg-white border border-stone-200 rounded-2xl p-6">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display font-semibold text-lg text-stone-800 flex items-center gap-2">
-                <BarChart2 className="w-4 h-4 text-green-500" /> Inventory Value Trend (Last 7 Days)
+              <h2 className="font-display font-semibold text-lg text-slate-900 flex items-center gap-2">
+                <BarChart2 className="w-4 h-4 text-emerald-600" /> Inventory Value Trend (Last 7 Days)
               </h2>
-              <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium">
+              <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium border border-slate-200">
                 Simulated data
               </span>
             </div>
@@ -538,13 +512,11 @@ const Analytics = () => {
             </div>
           </div>
 
-        
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-            <p className="text-sm text-amber-700 font-medium">📊 About Trend Data</p>
-            <p className="text-xs text-amber-600 mt-1">
-              Trend charts currently show simulated variance based on your current inventory.
-              Connect to a real time-series database (like TimescaleDB or MongoDB time series)
-              to track actual daily price and stock changes over time.
+          <div className="bg-teal-50/60 border border-teal-200 rounded-2xl p-4">
+            <p className="text-sm text-teal-900 font-semibold">📊 About Trend Data</p>
+            <p className="text-xs text-teal-700 mt-1">
+              Trend charts illustrate movement patterns across your catalog.
+              All metrics update dynamically with your inventory updates.
             </p>
           </div>
         </div>

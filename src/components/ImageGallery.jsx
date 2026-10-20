@@ -12,8 +12,8 @@ const ImageGallery = ({ images = [], productName = "Product" }) => {
 
   if (allImages.length === 0) {
     return (
-      <div className="h-48 bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center rounded-xl">
-        <Package className="w-16 h-16 text-orange-200" />
+      <div className="h-48 bg-gradient-to-br from-teal-50 to-emerald-50 flex items-center justify-center rounded-xl">
+        <Package className="w-16 h-16 text-teal-200" />
       </div>
     );
   }
@@ -36,7 +36,7 @@ const ImageGallery = ({ images = [], productName = "Product" }) => {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative overflow-hidden rounded-xl bg-stone-100"
+        <div className="relative overflow-hidden rounded-xl bg-slate-100"
           style={{ paddingBottom: "75%" }}>
           <img
             src={allImages[current]}
@@ -84,7 +84,7 @@ const ImageGallery = ({ images = [], productName = "Product" }) => {
               key={i}
               onClick={() => setCurrent(i)}
               className={`shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all
-                ${i === current ? "border-orange-500 shadow-md" : "border-transparent opacity-60 hover:opacity-100"}`}
+                ${i === current ? "border-teal-600 shadow-md" : "border-transparent opacity-60 hover:opacity-100"}`}
             >
               <img src={img} alt={`thumb ${i + 1}`} className="w-full h-full object-cover" />
             </button>
@@ -130,7 +130,7 @@ const ImageGallery = ({ images = [], productName = "Product" }) => {
               {allImages.map((img, i) => (
                 <button key={i} onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
                   className={`w-12 h-12 rounded-lg overflow-hidden border-2 transition-all
-                    ${i === current ? "border-orange-400" : "border-white/30 opacity-50"}`}>
+                    ${i === current ? "border-teal-400" : "border-white/30 opacity-50"}`}>
                   <img src={img} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}

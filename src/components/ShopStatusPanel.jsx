@@ -76,46 +76,46 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
   return (
     <div className="space-y-6">
 
-      <div className="bg-white border border-stone-200 rounded-2xl p-5">
-        <h3 className="font-semibold text-stone-800 mb-4 flex items-center gap-2">
-          <Power className="w-4 h-4" /> Shop Status
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+          <Power className="w-4 h-4 text-teal-600" /> Store Availability & Live Status
         </h3>
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-1">
               {computedIsOpen ? (
-                <span className="flex items-center gap-1.5 text-sm font-semibold text-green-600">
-                  <CheckCircle2 className="w-4 h-4" /> Open Now
+                <span className="flex items-center gap-1.5 text-sm font-semibold text-emerald-700">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Open for Customers
                 </span>
               ) : (
-                <span className="flex items-center gap-1.5 text-sm font-semibold text-red-500">
-                  <XCircle className="w-4 h-4" /> Closed
+                <span className="flex items-center gap-1.5 text-sm font-semibold text-rose-600">
+                  <XCircle className="w-4 h-4 text-rose-500" /> Currently Closed
                 </span>
               )}
             </div>
-            <p className="text-xs text-stone-400">
+            <p className="text-xs text-slate-500">
               {shop.isOpen
-                ? "Shop is set to open (auto-closes per business hours)"
-                : "Shop is manually closed — customers see it as closed"}
+                ? "Store is open for orders (auto-adjusts to business hours)"
+                : "Store is manually paused — customers see it as closed"}
             </p>
           </div>
           <button
             onClick={handleToggle}
             disabled={toggling}
-            className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors
+            className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-colors shadow-sm
               ${shop.isOpen
-                ? "bg-red-500 hover:bg-red-600 text-white"
-                : "bg-green-600 hover:bg-green-700 text-white"}`}
+                ? "bg-rose-600 hover:bg-rose-700 text-white"
+                : "bg-emerald-600 hover:bg-emerald-700 text-white"}`}
           >
-            {toggling ? "Updating..." : shop.isOpen ? "Close Shop" : "Open Shop"}
+            {toggling ? "Updating..." : shop.isOpen ? "Close Store" : "Open Store"}
           </button>
         </div>
       </div>
 
      
-      <div className="bg-white border border-stone-200 rounded-2xl p-5">
-        <h3 className="font-semibold text-stone-800 mb-4 flex items-center gap-2">
-          <Clock className="w-4 h-4" /> Business Hours
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+          <Clock className="w-4 h-4 text-teal-600" /> Weekly Working Hours
         </h3>
         <div className="space-y-3">
           {DAYS.map((day, i) => (
@@ -125,13 +125,13 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
                 type="button"
                 onClick={() => updateDay(i, "isOpen", !hours[i].isOpen)}
                 className={`w-10 h-5 rounded-full transition-colors relative flex-shrink-0
-                  ${hours[i].isOpen ? "bg-green-500" : "bg-stone-200"}`}
+                  ${hours[i].isOpen ? "bg-teal-600" : "bg-slate-200"}`}
               >
                 <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all
                   ${hours[i].isOpen ? "left-5" : "left-0.5"}`} />
               </button>
 
-              <span className={`text-sm w-20 font-medium ${hours[i].isOpen ? "text-stone-700" : "text-stone-400"}`}>
+              <span className={`text-sm w-24 font-medium ${hours[i].isOpen ? "text-slate-800" : "text-slate-400"}`}>
                 {day}
               </span>
 
@@ -141,18 +141,18 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
                     type="time"
                     value={hours[i].open}
                     onChange={(e) => updateDay(i, "open", e.target.value)}
-                    className="px-2 py-1 border border-stone-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-orange-400"
+                    className="px-2.5 py-1 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
-                  <span className="text-stone-400 text-xs">to</span>
+                  <span className="text-slate-400 text-xs">to</span>
                   <input
                     type="time"
                     value={hours[i].close}
                     onChange={(e) => updateDay(i, "close", e.target.value)}
-                    className="px-2 py-1 border border-stone-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-orange-400"
+                    className="px-2.5 py-1 border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 </div>
               ) : (
-                <span className="text-xs text-stone-400 italic">Closed</span>
+                <span className="text-xs text-slate-400 italic">Closed</span>
               )}
             </div>
           ))}
@@ -160,15 +160,15 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
         <button
           onClick={saveHours}
           disabled={savingHours}
-          className="mt-4 w-full py-2.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl text-sm transition-colors"
+          className="mt-5 w-full py-2.5 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-semibold rounded-xl text-sm transition-colors shadow-sm"
         >
-          {savingHours ? "Saving..." : "Save Business Hours"}
+          {savingHours ? "Saving..." : "Save Working Hours"}
         </button>
       </div>
 
-      <div className="bg-white border border-stone-200 rounded-2xl p-5">
-        <h3 className="font-semibold text-stone-800 mb-4 flex items-center gap-2">
-          <Calendar className="w-4 h-4" /> Holiday Closures
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+        <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+          <Calendar className="w-4 h-4 text-teal-600" /> Holiday & Closure Dates
         </h3>
         <div className="flex gap-2 mb-3">
           <input
@@ -176,11 +176,11 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
             value={newHoliday}
             min={new Date().toISOString().slice(0, 10)}
             onChange={(e) => setNewHoliday(e.target.value)}
-            className="flex-1 px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="flex-1 px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
           />
           <button
             onClick={addHoliday}
-            className="px-4 py-2 bg-stone-800 hover:bg-stone-900 text-white text-sm font-semibold rounded-xl transition-colors"
+            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm"
           >
             Add
           </button>
@@ -188,23 +188,23 @@ const ShopStatusPanel = ({ shop, onUpdate }) => {
         {holidays.length > 0 ? (
           <div className="flex flex-wrap gap-2 mb-3">
             {holidays.map((d) => (
-              <span key={d} className="flex items-center gap-1.5 text-xs bg-stone-100 text-stone-700 px-3 py-1 rounded-full">
+              <span key={d} className="flex items-center gap-1.5 text-xs bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">
                 {new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" })}
-                <button onClick={() => removeHoliday(d)} className="hover:text-red-500">
+                <button onClick={() => removeHoliday(d)} className="hover:text-rose-500">
                   <X className="w-3 h-3" />
                 </button>
               </span>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-stone-400 mb-3">No holidays scheduled</p>
+          <p className="text-xs text-slate-400 mb-3">No custom holidays scheduled</p>
         )}
         <button
           onClick={saveHolidays}
           disabled={savingHols}
-          className="w-full py-2.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl text-sm transition-colors"
+          className="w-full py-2.5 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-semibold rounded-xl text-sm transition-colors shadow-sm"
         >
-          {savingHols ? "Saving..." : "Save Holidays"}
+          {savingHols ? "Saving..." : "Save Holiday Schedule"}
         </button>
       </div>
     </div>

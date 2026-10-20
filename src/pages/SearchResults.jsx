@@ -9,6 +9,7 @@ import {
   SlidersHorizontal, MapPin, ChevronLeft, ChevronRight,
   X, GitCompare,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const CATEGORIES = ["All","Grocery","Electronics","Clothing","Pharmacy","Hardware","Stationery","Food & Beverage","Other"];
@@ -92,14 +93,21 @@ const SearchResults = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 text-sm text-slate-500">
+        <Link to="/" className="hover:text-teal-600 transition-colors">Home</Link>
+        <span>/</span>
+        <span className="text-slate-700 font-medium">Local Directory & Search</span>
+      </div>
 
       {/* Search bar */}
       <div className="max-w-2xl mx-auto">
         <SearchBar
           initialValue={query}
           onSearch={(q) => { setQuery(q); setTimeout(() => handleSearch(null, true), 0); }}
-          placeholder="Search products…"
+          placeholder="Search items or local store inventories…"
         />
       </div>
 
@@ -108,21 +116,21 @@ const SearchResults = () => {
         <div className="flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
             <button key={c} onClick={() => setCategory(c)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors
-                ${category === c ? "bg-orange-500 text-white border-orange-500" : "border-stone-200 text-stone-600 hover:border-stone-300"}`}>
+              className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all duration-200
+                ${category === c ? "bg-teal-600 text-white border-teal-600 shadow-sm" : "border-slate-200 text-slate-600 hover:border-teal-300 hover:bg-teal-50"}`}>
               {c}
             </button>
           ))}
         </div>
         <div className="flex gap-2">
           <button onClick={() => setShowFilters(!showFilters)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-colors
-              ${showFilters ? "bg-stone-800 text-white border-stone-800" : "border-stone-200 text-stone-600 hover:bg-stone-50"}`}>
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-xs font-semibold transition-all duration-200
+              ${showFilters ? "bg-slate-900 text-white border-slate-900 shadow-sm" : "border-slate-200 text-slate-600 hover:bg-slate-50"}`}>
             <SlidersHorizontal className="w-3.5 h-3.5" /> Filters
           </button>
           <button onClick={() => setCompareMode(!compareMode)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-semibold transition-colors
-              ${compareMode ? "bg-blue-500 text-white border-blue-500" : "border-stone-200 text-stone-600 hover:bg-stone-50"}`}>
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl border text-xs font-semibold transition-all duration-200
+              ${compareMode ? "bg-teal-600 text-white border-teal-600 shadow-sm" : "border-slate-200 text-slate-600 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200"}`}>
             <GitCompare className="w-3.5 h-3.5" /> Compare Mode
           </button>
         </div>
@@ -130,72 +138,74 @@ const SearchResults = () => {
 
       {/* Extended filters */}
       {showFilters && (
-        <div className="bg-white border border-stone-200 rounded-2xl p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 grid grid-cols-2 md:grid-cols-4 gap-4 shadow-sm">
           <div>
-            <label className="text-xs font-semibold text-stone-500 block mb-1">Min Price</label>
+            <label className="text-xs font-semibold text-slate-600 block mb-1">Min Price</label>
             <input type="number" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}
-              placeholder="₹0" className="w-full px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              placeholder="₹0" className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-stone-500 block mb-1">Max Price</label>
+            <label className="text-xs font-semibold text-slate-600 block mb-1">Max Price</label>
             <input type="number" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}
-              placeholder="₹9999" className="w-full px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              placeholder="₹9999" className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-stone-500 block mb-1">Sort By</label>
+            <label className="text-xs font-semibold text-slate-600 block mb-1">Sort By</label>
             <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-3 py-2 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white">
+              className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white">
               <option value="price_asc">Price: Low to High</option>
               <option value="price_desc">Price: High to Low</option>
               <option value="distance">Nearest First</option>
             </select>
           </div>
           <div className="flex flex-col gap-2">
-            <label className="text-xs font-semibold text-stone-500">Location</label>
+            <label className="text-xs font-semibold text-slate-600">Location</label>
             <button onClick={detectLocation}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-200 text-xs font-semibold text-stone-600 hover:bg-stone-50 transition-colors">
-              <MapPin className="w-3.5 h-3.5" /> {lat && lng ? `${lat}, ${lng}` : "Detect Location"}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
+              <MapPin className="w-3.5 h-3.5 text-teal-600" /> {lat && lng ? `${lat}, ${lng}` : "Detect Location"}
             </button>
             {lat && lng && (
               <button onClick={() => { setLat(""); setLng(""); }}
-                className="flex items-center gap-1 text-xs text-stone-400 hover:text-red-500 transition-colors">
+                className="flex items-center gap-1 text-xs text-slate-400 hover:text-red-500 transition-colors">
                 <X className="w-3 h-3" /> Clear location
               </button>
             )}
           </div>
-          <div className="col-span-2 md:col-span-4 flex items-center gap-2">
+          <div className="col-span-2 md:col-span-4 flex items-center gap-2 pt-1">
             <input type="checkbox" id="instock" checked={inStockOnly} onChange={(e) => setInStockOnly(e.target.checked)}
-              className="w-4 h-4 accent-orange-500" />
-            <label htmlFor="instock" className="text-sm text-stone-600 font-medium">In stock only</label>
+              className="w-4 h-4 accent-teal-600 rounded" />
+            <label htmlFor="instock" className="text-sm text-slate-700 font-medium">In stock only</label>
           </div>
         </div>
       )}
 
       {/* Results */}
-      {loading && <Loader text="Searching products…" />}
+      {loading && <Loader text="Searching local catalog…" />}
 
       {!loading && searched && products.length === 0 && (
-        <div className="text-center py-20 text-stone-400">
-          <p className="text-4xl mb-3">🔍</p>
-          <p className="font-semibold text-stone-600">No products found for "{query}"</p>
-          <p className="text-sm mt-1">Try a different keyword or remove some filters.</p>
+        <div className="text-center py-20 text-slate-400 bg-slate-50 border border-slate-100 rounded-2xl">
+          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-slate-100">
+            <p className="text-4xl">🔍</p>
+          </div>
+          <p className="font-display font-semibold text-xl text-slate-700 mb-2">No products found for "{query}"</p>
+          <p className="text-sm text-slate-500 mt-1">Try another search keyword or clear applied category filters.</p>
         </div>
       )}
 
       {!loading && products.length > 0 && (
         <>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-stone-500">
+            <p className="text-sm text-slate-500">
               {pagination ? `${pagination.total} result${pagination.total !== 1 ? "s" : ""}` : `${products.length} result${products.length !== 1 ? "s" : ""}`}
             </p>
             {compareMode && (
-              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-semibold">
+              <span className="text-xs bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 rounded-full font-semibold">
                 Compare mode: sorted by price
               </span>
             )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((p) => (
               <ProductCard
                 key={p._id}
@@ -208,14 +218,14 @@ const SearchResults = () => {
           </div>
 
           {pagination && pagination.totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-4">
+            <div className="flex items-center justify-center gap-2 pt-6">
               <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={!pagination.hasPrevPage}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-stone-200 text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50 transition-colors">
+                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors">
                 <ChevronLeft className="w-4 h-4" /> Prev
               </button>
-              <span className="text-sm text-stone-500">Page {pagination.page} of {pagination.totalPages}</span>
+              <span className="text-sm text-slate-600 font-medium">Page {pagination.page} of {pagination.totalPages}</span>
               <button onClick={() => setPage((p) => p + 1)} disabled={!pagination.hasNextPage}
-                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-stone-200 text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-stone-50 transition-colors">
+                className="flex items-center gap-1 px-4 py-2 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition-colors">
                 Next <ChevronRight className="w-4 h-4" />
               </button>
             </div>

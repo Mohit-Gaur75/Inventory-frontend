@@ -28,7 +28,7 @@ const PasswordStrength = ({ password }) => {
             <div
               key={i}
               className={`h-1.5 flex-1 rounded-full transition-all duration-300
-                ${i <= passed ? style.bar : "bg-stone-200"}`}
+                ${i <= passed ? style.bar : "bg-slate-200"}`}
             />
           ))}
         </div>
@@ -41,10 +41,10 @@ const PasswordStrength = ({ password }) => {
       <div className="grid grid-cols-2 gap-1">
         {checks.map(({ label, pass }) => (
           <div key={label} className="flex items-center gap-1.5">
-            <span className={`text-xs ${pass ? "text-green-500" : "text-stone-400"}`}>
+            <span className={`text-xs ${pass ? "text-green-500" : "text-slate-400"}`}>
               {pass ? "✓" : "○"}
             </span>
-            <span className={`text-xs ${pass ? "text-stone-600" : "text-stone-400"}`}>
+            <span className={`text-xs ${pass ? "text-slate-600" : "text-slate-400"}`}>
               {label}
             </span>
           </div>

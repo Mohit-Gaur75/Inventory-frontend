@@ -31,18 +31,18 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 flex items-center justify-center px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-orange-500 rounded-2xl mb-4 shadow-lg shadow-orange-200">
+          <div className="inline-flex items-center justify-center w-14 h-14 bg-teal-600 rounded-2xl mb-4 shadow-lg shadow-teal-200">
             <ShoppingBag className="w-7 h-7 text-white" />
           </div>
-          <h1 className="font-display font-bold text-3xl text-stone-800">Create account</h1>
-          <p className="text-stone-500 mt-1 text-sm">Join LocalMart today</p>
+          <h1 className="font-display font-bold text-3xl text-slate-800">Create account</h1>
+          <p className="text-slate-500 mt-1 text-sm">Join LocalMart today</p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl shadow-stone-100 border border-stone-100 p-8">
+        <div className="bg-white rounded-3xl shadow-xl shadow-slate-100 border border-slate-100 p-8">
 
          
           <div className="flex gap-3 mb-6">
@@ -50,8 +50,8 @@ const Register = () => {
               <button key={r} type="button" onClick={() => setForm({ ...form, role: r })}
                 className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border-2 text-sm font-medium transition-all
                   ${form.role === r
-                    ? "border-orange-500 bg-orange-50 text-orange-600"
-                    : "border-stone-200 text-stone-500 hover:border-stone-300"}`}>
+                    ? "border-teal-600 bg-teal-50 text-teal-700"
+                    : "border-slate-200 text-slate-500 hover:border-slate-300"}`}>
                 {r === "customer" ? <User className="w-4 h-4" /> : <Store className="w-4 h-4" />}
                 {r.charAt(0).toUpperCase() + r.slice(1)}
               </button>
@@ -60,34 +60,34 @@ const Register = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Full Name</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
               <input type="text" name="name" value={form.name} onChange={handleChange} required
                 placeholder="John Doe"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
               <input type="email" name="email" value={form.email} onChange={handleChange} required
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Phone (optional)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Phone (optional)</label>
               <input type="tel" name="phone" value={form.phone} onChange={handleChange}
                 placeholder="9876543210"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition" />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
               <div className="relative">
                 <input type={showPass ? "text" : "password"} name="password" value={form.password}
                   onChange={handleChange} required placeholder="Min. 6 characters"
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition pr-11" />
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition pr-11" />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                   {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
@@ -96,14 +96,14 @@ const Register = () => {
             </div>
 
             <button type="submit" disabled={loading}
-              className="w-full py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl transition-colors text-sm mt-2">
+              className="w-full py-3 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-semibold rounded-xl transition-colors text-sm mt-2">
               {loading ? "Creating account..." : "Create Account"}
             </button>
           </form>
 
-          <p className="text-center text-sm text-stone-500 mt-6">
+          <p className="text-center text-sm text-slate-500 mt-6">
             Already have an account?{" "}
-            <Link to="/login" className="text-orange-500 font-semibold hover:underline">Sign in</Link>
+            <Link to="/login" className="text-teal-600 font-semibold hover:underline">Sign in</Link>
           </p>
         </div>
       </div>

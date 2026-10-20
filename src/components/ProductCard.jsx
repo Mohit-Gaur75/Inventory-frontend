@@ -80,22 +80,22 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
   const isOutOfStock   = currentStock === 0;
 
   return (
-    <div className={`relative bg-white border-2 rounded-2xl overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200
-      ${isOutOfStock ? "border-stone-200 opacity-80" : "border-stone-200"}`}>
+    <div className={`relative bg-white border rounded-2xl overflow-hidden transition-all duration-300
+      ${isOutOfStock ? "border-slate-200 opacity-80" : "border-slate-200 hover:border-teal-200 hover:shadow-lg hover:scale-[1.02] hover:-translate-y-1"}`}>
 
       {priceFlash && (
         <div className={`absolute top-2 left-2 z-20 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold text-white animate-bounce
-          ${priceFlash === "down" ? "bg-green-500" : "bg-red-500"}`}>
+          ${priceFlash === "down" ? "bg-gradient-to-r from-green-500 to-emerald-500" : "bg-gradient-to-r from-red-500 to-pink-500"}`}>
           <TrendingDown className="w-2.5 h-2.5" />
           Price {priceFlash === "down" ? "dropped!" : "updated"}
         </div>
       )}
 
     
-      <div className="relative p-2 pb-0">
+      <div className="relative p-2 pb-0 group">
         <ImageGallery images={allImages} productName={name} />
       
-        <span className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur text-xs font-medium text-stone-600 px-2 py-0.5 rounded-full border border-stone-200">
+        <span className="absolute top-3 left-3 z-10 bg-teal-50 backdrop-blur-md text-xs font-medium text-teal-700 px-2 py-0.5 rounded-full border border-teal-100 shadow-sm">
           {category}
         </span>
     
@@ -103,15 +103,15 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
           <button
             onClick={toggleFavourite}
             disabled={favLoading}
-            className={`absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full shadow-md transition-all
-              ${faved ? "bg-red-500 text-white" : "bg-white text-stone-400 hover:text-red-400"}`}>
+            className={`absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full shadow-lg transition-all duration-200 hover:scale-110
+              ${faved ? "bg-gradient-to-br from-red-500 to-pink-500 text-white" : "bg-white/90 backdrop-blur-md text-slate-400 hover:text-red-400"}`}>
             <Heart className={`w-4 h-4 ${faved ? "fill-current" : ""}`} />
           </button>
         )}
       
         {isOutOfStock && (
           <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center rounded-xl m-2">
-            <span className="bg-stone-800 text-white text-xs font-bold px-3 py-1 rounded-full">Out of Stock</span>
+            <span className="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full">Out of Stock</span>
           </div>
         )}
       </div>
@@ -119,29 +119,29 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
   
       <div className="p-3 space-y-2">
         <div>
-          <h3 className="font-semibold text-stone-800 truncate">{name}</h3>
-          {description && <p className="text-xs text-stone-400 line-clamp-1 mt-0.5">{description}</p>}
+          <h3 className="font-semibold text-slate-800 truncate">{name}</h3>
+          {description && <p className="text-xs text-slate-400 line-clamp-1 mt-0.5">{description}</p>}
         </div>
 
     
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
-            <Tag className="w-3.5 h-3.5 text-orange-500" />
-            <span className={`font-bold text-lg transition-colors ${priceFlash === "down" ? "text-green-600" : priceFlash === "up" ? "text-red-500" : "text-stone-800"}`}>
+            <Tag className="w-3.5 h-3.5 text-teal-600" />
+            <span className={`font-bold text-lg transition-all duration-300 ${priceFlash === "down" ? "text-green-600 scale-110" : priceFlash === "up" ? "text-red-500 scale-110" : "text-slate-800"}`}>
               ₹{currentPrice}
             </span>
-            {unit && <span className="text-xs text-stone-400">/{unit}</span>}
+            {unit && <span className="text-xs text-slate-400">/{unit}</span>}
           </div>
           
-          <span className={`text-xs font-medium px-2 py-0.5 rounded-full transition-all
-            ${stockFlash ? "bg-orange-100 text-orange-700 scale-110" : isOutOfStock ? "bg-red-100 text-red-600" : currentStock <= 5 ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>
+          <span className={`text-xs font-medium px-2 py-0.5 rounded-full transition-all duration-300
+            ${stockFlash ? "bg-teal-100 text-teal-700 scale-110 shadow-md" : isOutOfStock ? "bg-red-100 text-red-600" : currentStock <= 5 ? "bg-amber-100 text-amber-700 animate-pulse" : "bg-green-100 text-green-700"}`}>
             {isOutOfStock ? "0 left" : `${currentStock} left`}
             {stockFlash && <Zap className="w-2.5 h-2.5 inline ml-0.5" />}
           </span>
         </div>
 
 
-        <div className="flex items-center gap-1 text-xs text-stone-500">
+        <div className="flex items-center gap-1 text-xs text-slate-500">
           <Store className="w-3 h-3 shrink-0" />
           <span className="truncate">{shop?.name || "Unknown Shop"}</span>
           {distance != null && (
@@ -157,12 +157,12 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
             <button
               onClick={handleAddToCart}
               disabled={cartLoading || isOutOfStock}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-colors
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200
                 ${alreadyInCart
-                  ? "bg-stone-100 text-stone-500 hover:bg-stone-200"
+                  ? "bg-slate-100 text-slate-500 hover:bg-slate-200"
                   : isOutOfStock
-                    ? "bg-stone-100 text-stone-400 cursor-not-allowed"
-                    : "bg-orange-500 text-white hover:bg-orange-600"}`}
+                    ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                    : "bg-teal-600 text-white hover:bg-teal-700 shadow-md hover:shadow-lg hover:scale-105"}`}
             >
               {cartLoading
                 ? <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -174,7 +174,7 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
             <button
               onClick={(e) => { e.preventDefault(); onCompare(name); }}
               title="Compare prices across shops"
-              className="px-3 py-2 rounded-xl border border-stone-200 text-stone-500 hover:bg-stone-50 text-xs font-semibold transition-colors"
+              className="px-3 py-2 rounded-xl border border-slate-200 text-slate-500 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 text-xs font-semibold transition-all duration-200 hover:scale-105"
             >
               Compare
             </button>
@@ -186,4 +186,3 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
 };
 
 export default ProductCard;
-

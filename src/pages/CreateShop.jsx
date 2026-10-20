@@ -40,123 +40,123 @@ const CreateShop = () => {
         latitude: form.latitude, longitude: form.longitude,
         phone: form.phone, email: form.email,
       });
-      toast.success("Shop created successfully!");
+      toast.success("Store profile created successfully!");
       navigate("/dashboard");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to create shop");
+      toast.error(err.response?.data?.message || "Failed to create store profile");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-10">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-          <Store className="w-5 h-5 text-orange-500" />
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="flex items-center gap-3.5 mb-8">
+        <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center shadow-sm">
+          <Store className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h1 className="font-display font-bold text-2xl text-stone-800">Create Your Shop</h1>
-          <p className="text-stone-500 text-sm">Set up your shop profile to start selling</p>
+          <h1 className="font-display font-bold text-2xl text-slate-900">Register Store Profile</h1>
+          <p className="text-slate-500 text-sm">Join the local merchant directory & connect with nearby buyers</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         
-        <div className="bg-white rounded-2xl border border-stone-200 p-6 space-y-4">
-          <h2 className="font-semibold text-stone-700">Basic Information</h2>
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-sm">
+          <h2 className="font-semibold text-slate-800 text-base">Store Details</h2>
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1.5">Shop Name *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Store / Business Name *</label>
             <input type="text" name="name" value={form.name} onChange={handleChange} required
-              placeholder="e.g. Rajesh General Store"
-              className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+              placeholder="e.g. Apex Organic Groceries"
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1.5">Description</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Description</label>
             <textarea name="description" value={form.description} onChange={handleChange} rows={3}
-              placeholder="Tell customers about your shop..."
-              className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition resize-none" />
+              placeholder="Describe what you specialize in, home delivery options, etc..."
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition resize-none" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1.5">Category *</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Category *</label>
             <select name="category" value={form.category} onChange={handleChange}
-              className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition bg-white">
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition bg-white">
               {CATEGORIES.map(c => <option key={c}>{c}</option>)}
             </select>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Phone</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">WhatsApp / Contact Phone</label>
               <input type="tel" name="phone" value={form.phone} onChange={handleChange}
                 placeholder="9876543210"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Shop Email</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Store Email</label>
               <input type="email" name="email" value={form.email} onChange={handleChange}
-                placeholder="shop@example.com"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                placeholder="store@example.com"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
           </div>
         </div>
 
         
-        <div className="bg-white rounded-2xl border border-stone-200 p-6 space-y-4">
-          <h2 className="font-semibold text-stone-700">Address</h2>
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-sm">
+          <h2 className="font-semibold text-slate-800 text-base">Address & Neighborhood</h2>
           <div>
-            <label className="block text-sm font-medium text-stone-700 mb-1.5">Street</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">Street Address</label>
             <input type="text" name="street" value={form.street} onChange={handleChange}
-              placeholder="12 MG Road"
-              className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+              placeholder="e.g. Shop 4, Market Complex"
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">City</label>
-              <input type="text" name="city" value={form.city} onChange={handleChange} placeholder="Guwahati"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">City / Area</label>
+              <input type="text" name="city" value={form.city} onChange={handleChange} placeholder="Mumbai"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">State</label>
-              <input type="text" name="state" value={form.state} onChange={handleChange} placeholder="Assam"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">State</label>
+              <input type="text" name="state" value={form.state} onChange={handleChange} placeholder="Maharashtra"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Pincode</label>
-              <input type="text" name="pincode" value={form.pincode} onChange={handleChange} placeholder="781001"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Pincode</label>
+              <input type="text" name="pincode" value={form.pincode} onChange={handleChange} placeholder="400057"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
           </div>
         </div>
 
        
-        <div className="bg-white rounded-2xl border border-stone-200 p-6 space-y-4">
+        <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-stone-700">Location Coordinates</h2>
+            <h2 className="font-semibold text-slate-800 text-base">Geographic Coordinates</h2>
             <button type="button" onClick={detectLocation}
-              className="flex items-center gap-1.5 text-xs font-medium text-orange-600 hover:text-orange-700 bg-orange-50 px-3 py-1.5 rounded-lg">
-              <MapPin className="w-3.5 h-3.5" /> Auto-detect
+              className="flex items-center gap-1.5 text-xs font-semibold text-teal-700 hover:text-teal-800 bg-teal-50 border border-teal-200 px-3 py-1.5 rounded-xl">
+              <MapPin className="w-3.5 h-3.5" /> Auto-detect Location
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Latitude *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Latitude *</label>
               <input type="number" step="any" name="latitude" value={form.latitude} onChange={handleChange} required
-                placeholder="26.1445"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                placeholder="19.0760"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-stone-700 mb-1.5">Longitude *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1.5">Longitude *</label>
               <input type="number" step="any" name="longitude" value={form.longitude} onChange={handleChange} required
-                placeholder="91.7362"
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition" />
+                placeholder="72.8777"
+                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition" />
             </div>
           </div>
-          <p className="text-xs text-stone-400">Used for distance-based product search by customers.</p>
+          <p className="text-xs text-slate-400">Used for hyper-local discovery and distance calculations for nearby customers.</p>
         </div>
 
         <button type="submit" disabled={loading}
-          className="w-full py-3.5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl transition-colors">
-          {loading ? "Creating Shop..." : "Create Shop"}
+          className="w-full py-3.5 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-semibold rounded-xl transition-all duration-200 shadow-sm text-sm">
+          {loading ? "Registering Store..." : "Create Store Listing"}
         </button>
       </form>
     </div>

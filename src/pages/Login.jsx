@@ -32,44 +32,44 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-amber-50 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 flex items-center justify-center px-4">
             <div className="w-full max-w-md">
 
                 
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-14 h-14 bg-orange-500 rounded-2xl mb-4 shadow-lg shadow-orange-200">
+                    <div className="inline-flex items-center justify-center w-14 h-14 bg-teal-600 rounded-2xl mb-4 shadow-lg shadow-teal-200">
                         <ShoppingBag className="w-7 h-7 text-white" />
                     </div>
-                    <h1 className="font-display font-bold text-3xl text-stone-800">Welcome back</h1>
-                    <p className="text-stone-500 mt-1 text-sm">Sign in to your LocalMart account</p>
+                    <h1 className="font-display font-bold text-3xl text-slate-800">Welcome back</h1>
+                    <p className="text-slate-500 mt-1 text-sm">Sign in to your LocalMart account</p>
                 </div>
 
             
-                <div className="bg-white rounded-3xl shadow-xl shadow-stone-100 border border-stone-100 p-8">
+                <div className="bg-white rounded-3xl shadow-xl shadow-slate-100 border border-slate-100 p-8">
                     <form onSubmit={handleSubmit} className="space-y-5">
 
                         <div>
-                            <label className="block text-sm font-medium text-stone-700 mb-1.5">Email</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
                             <input
                                 type="email" name="email" value={form.email}
                                 onChange={handleChange} required
                                 placeholder="you@example.com"
-                                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
+                                className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-stone-700 mb-1.5">Password</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
                             <div className="relative">
                                 <input
                                     type={showPass ? "text" : "password"}
                                     name="password" value={form.password}
                                     onChange={handleChange} required
                                     placeholder="••••••••"
-                                    className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 transition pr-11"
+                                    className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 transition pr-11"
                                 />
                                 <button type="button" onClick={() => setShowPass(!showPass)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600">
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                                     {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
@@ -78,20 +78,20 @@ const Login = () => {
                       
                         <div className="text-right -mt-2">
                             <Link to="/forgot-password"
-                                className="text-xs text-orange-500 hover:underline font-medium">
+                                className="text-xs text-teal-600 hover:underline font-medium">
                                 Forgot password?
                             </Link>
                         </div>
 
                         <button type="submit" disabled={loading}
-                            className="w-full py-3 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold rounded-xl transition-colors text-sm">
+                            className="w-full py-3 bg-teal-600 hover:bg-teal-700 disabled:bg-teal-300 text-white font-semibold rounded-xl transition-colors text-sm">
                             {loading ? "Signing in..." : "Sign In"}
                         </button>
                     </form>
 
-                    <p className="text-center text-sm text-stone-500 mt-6">
+                    <p className="text-center text-sm text-slate-500 mt-6">
                         Don't have an account?{" "}
-                        <Link to="/register" className="text-orange-500 font-semibold hover:underline">
+                        <Link to="/register" className="text-teal-600 font-semibold hover:underline">
                             Register
                         </Link>
                     </p>
