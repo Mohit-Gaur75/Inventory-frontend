@@ -218,7 +218,7 @@ const Analytics = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Total Products",    value: totalProducts,                     icon: Package,    color: "blue",   sub: `${lowStock} low stock`         },
+          { label: "Total Products",    value: totalProducts,                     icon: Package,    color: "blue",   sub: `${totalStock} units · ${lowStock} low`         },
           { label: "Inventory Value",   value: `₹${totalValue.toLocaleString()}`,  icon: DollarSign, color: "teal",   sub: "retail value"                 },
           { label: "Out of Stock",      value: outOfStock,                        icon: AlertCircle,color: "red",    sub: `${inStock} in stock`            },
           { label: "Avg. Price",        value: `₹${avgPrice}`,                    icon: Tag,        color: "emerald",sub: `₹${minPrice} – ₹${maxPrice}`   },

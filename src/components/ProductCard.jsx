@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link }                from "react-router-dom";
 import { MapPin, Tag, Store, Heart, ShoppingCart, Zap, TrendingDown } from "lucide-react";
 import { addFavourite, removeFavourite } from "../api/axios";
 import { useAuth }    from "../context/AuthContext";
@@ -8,8 +7,9 @@ import { useSocket }  from "../context/SocketContext";
 import ImageGallery   from "./ImageGallery";
 import toast          from "react-hot-toast";
 
-const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompare }) => {
-  const { name, category, description, unit, shop, distance } = product;
+const ProductCard = ({ product, distance: propDistance, isFavourited = false, onFavouriteChange, onCompare, onCategoryClick }) => {
+  const { name, category, description, unit, shop, distance: prodDistance } = product;
+  const distance = propDistance !== undefined ? propDistance : prodDistance;
   const { user }        = useAuth();
   const { addItem, isInCart } = useCart();
   const { socket }      = useSocket();
@@ -95,9 +95,16 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
       <div className="relative p-2 pb-0 group">
         <ImageGallery images={allImages} productName={name} />
       
-        <span className="absolute top-3 left-3 z-10 bg-teal-50 backdrop-blur-md text-xs font-medium text-teal-700 px-2 py-0.5 rounded-full border border-teal-100 shadow-sm">
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onCategoryClick?.(category);
+          }}
+          className="absolute top-3 left-3 z-10 bg-teal-50/95 backdrop-blur-md text-xs font-semibold text-teal-800 px-2.5 py-0.5 rounded-full border border-teal-200/80 shadow-sm hover:bg-teal-100 hover:scale-105 transition-all"
+        >
           {category}
-        </span>
+        </button>
     
         {user?.role === "customer" && (
           <button
@@ -145,8 +152,8 @@ const ProductCard = ({ product, isFavourited = false, onFavouriteChange, onCompa
           <Store className="w-3 h-3 shrink-0" />
           <span className="truncate">{shop?.name || "Unknown Shop"}</span>
           {distance != null && (
-            <span className="flex items-center gap-0.5 ml-auto shrink-0">
-              <MapPin className="w-2.5 h-2.5" /> {distance} km
+            <span className="inline-flex items-center gap-1 ml-auto shrink-0 text-[11px] font-semibold text-teal-800 bg-teal-50 border border-teal-200/80 px-2 py-0.5 rounded-full">
+              <MapPin className="w-2.5 h-2.5 text-teal-600" /> {distance} km away
             </span>
           )}
         </div>

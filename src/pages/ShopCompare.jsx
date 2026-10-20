@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import {
   compareProducts,
-  addToCart as apiAddToCart,
 } from "../api/axios";
 import { useAuth }  from "../context/AuthContext";
 import { useCart }  from "../context/CartContext";

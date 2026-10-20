@@ -5,14 +5,14 @@ import { searchProducts } from "../api/axios";
 import ProductCard from "../components/ProductCard";
 import {
   Search, MapPin, ShoppingBag, Store, TrendingDown,
-  Star, ArrowRight, Package, Users, CheckCircle, Zap
+  ArrowRight, Package, CheckCircle, Zap
 } from "lucide-react";
 
 const Home = () => {
   const { user } = useAuth();
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [loadingTrending, setLoadingTrending] = useState(true);
-  const [favIds, setFavIds] = useState([]);
+  const favIds = [];
 
   useEffect(() => {
     fetchTrendingProducts();
@@ -311,6 +311,7 @@ const Home = () => {
               <ProductCard
                 key={product._id}
                 product={product}
+                distance={product.distance}
                 isFavourited={favIds.includes(product._id)}
                 onFavouriteChange={() => {}}
               />

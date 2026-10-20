@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight, X, ZoomIn, Package } from "lucide-react";
 
 const ImageGallery = ({ images = [], productName = "Product" }) => {

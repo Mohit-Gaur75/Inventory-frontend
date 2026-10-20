@@ -22,7 +22,7 @@ const Login = () => {
             login(data); 
 
             toast.success(`Welcome back, ${data.name}!`);
-            navigate(data.redirectTo || "/search");
+            navigate(data.role === "shopkeeper" ? "/dashboard" : (data.redirectTo || "/search"));
 
         } catch (err) {
             toast.error(err.response?.data?.message || "Login failed");

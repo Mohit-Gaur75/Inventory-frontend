@@ -5,6 +5,7 @@ const PasswordStrength = ({ password }) => {
     { label: "length min 6 ",        pass: password.length >= 6 },
     { label: "min one letter",      pass: /[a-zA-Z]/.test(password) },
     { label: "min one Number",                pass: /[0-9]/.test(password) },
+    // eslint-disable-next-line no-useless-escape
     { label: "min one Special character",     pass: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) },
   ];
 

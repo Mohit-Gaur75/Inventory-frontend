@@ -4,7 +4,7 @@ import API from "../api/axios";
 import toast from "react-hot-toast";
 import {
   FileSpreadsheet, Upload, Download, CheckCircle2,
-  XCircle, AlertTriangle, ChevronRight, RotateCcw, Loader2,
+  AlertTriangle, ChevronRight, RotateCcw, Loader2,
 } from "lucide-react";
 
 const BulkImport = () => {

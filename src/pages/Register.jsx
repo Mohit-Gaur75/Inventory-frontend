@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/axios";
-import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { ShoppingBag, Eye, EyeOff, User, Store } from "lucide-react";
 import PasswordStrength from "../components/PasswordStrength";
@@ -10,7 +9,6 @@ const Register = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "customer", phone: "" });
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,10 +17,9 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await registerUser(form);
-      login(data);
-      toast.success(`Account created! Welcome, ${data.name}!`);
-      navigate(data.role === "shopkeeper" ? "/create-shop" : "/search");
+      await registerUser(form);
+      toast.success("Account created successfully! Please sign in with your credentials.");
+      navigate("/login");
     } catch (err) {
       toast.error(err.response?.data?.message || err.response?.data?.errors?.[0]?.msg || "Registration failed");
     } finally {
