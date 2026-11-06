@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getReviews, addReview, deleteReview } from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
@@ -14,7 +14,6 @@ const StarInput = ({ value, onChange }) => (
     ))}
   </div>
 );
-
 
 const StarDisplay = ({ value, size = "sm" }) => {
   const sz = size === "sm" ? "w-3.5 h-3.5" : "w-5 h-5";
@@ -35,7 +34,7 @@ const ReviewSection = ({ shopId }) => {
   const [rating, setRating]     = useState(0);
   const [comment, setComment]   = useState("");
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const res = await getReviews(shopId);
       setData(res.data);
@@ -44,19 +43,31 @@ const ReviewSection = ({ shopId }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [shopId]);
 
-  useEffect(() => { fetchReviews(); }, [shopId]);
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
+
+  const myReview = data.reviews.find((r) => r.user?._id === user?._id);
+
+  useEffect(() => {
+    if (myReview && rating === 0) {
+      setRating(myReview.rating);
+      if (!comment && myReview.comment) {
+        setComment(myReview.comment);
+      }
+    }
+  }, [myReview, rating, comment]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (rating === 0) return toast.error("Please select a star rating");
+    const effectiveRating = rating || myReview?.rating || 0;
+    if (effectiveRating === 0) return toast.error("Please select a star rating");
     setSubmitting(true);
     try {
-      await addReview(shopId, { rating, comment });
-      toast.success("Review submitted! ⭐");
-      setRating(0);
-      setComment("");
+      await addReview(shopId, { rating: effectiveRating, comment });
+      toast.success(myReview ? "Review updated! ⭐" : "Review submitted! ⭐");
       fetchReviews();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to submit review");
@@ -69,14 +80,13 @@ const ReviewSection = ({ shopId }) => {
     try {
       await deleteReview(shopId);
       toast.success("Review deleted");
+      setRating(0);
+      setComment("");
       fetchReviews();
     } catch {
       toast.error("Failed to delete review");
     }
   };
-
-  
-  const myReview = data.reviews.find((r) => r.user?._id === user?._id);
 
   return (
     <div className="space-y-6">
@@ -85,10 +95,8 @@ const ReviewSection = ({ shopId }) => {
         Customer Reviews & Ratings
       </h2>
 
-     
       {!loading && data.totalReviews > 0 && (
         <div className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row gap-6 shadow-sm">
-         
           <div className="text-center sm:border-r sm:border-slate-100 sm:pr-6">
             <p className="text-5xl font-display font-bold text-slate-900">{data.avgRating}</p>
             <div className="flex justify-center mt-2">
@@ -97,7 +105,6 @@ const ReviewSection = ({ shopId }) => {
             <p className="text-xs text-slate-500 mt-2">{data.totalReviews} review{data.totalReviews !== 1 ? "s" : ""}</p>
           </div>
 
-          
           <div className="flex-1 space-y-1.5">
             {[5, 4, 3, 2, 1].map((star) => {
               const count = data.distribution?.[star] || 0;
@@ -118,7 +125,6 @@ const ReviewSection = ({ shopId }) => {
         </div>
       )}
 
-      
       {user && user.role === "customer" && (
         <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
           <h3 className="font-semibold text-slate-800 mb-4">
@@ -156,14 +162,12 @@ const ReviewSection = ({ shopId }) => {
         </div>
       )}
 
-    
       {!user && (
         <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center text-sm text-slate-600">
           <a href="/login" className="text-teal-600 font-semibold hover:underline">Login</a> to leave a review
         </div>
       )}
 
-    
       {loading ? (
         <p className="text-slate-400 text-sm text-center py-6">Loading reviews...</p>
       ) : data.reviews.length === 0 ? (

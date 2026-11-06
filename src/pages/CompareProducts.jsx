@@ -12,17 +12,18 @@ const COLORS = ["#0d9488", "#0284c7", "#10b981", "#8b5cf6"];
 
 const CompareProducts = () => {
   const [searchParams] = useSearchParams();
-  const ids = searchParams.get("ids")?.split(",").filter(Boolean) || [];
-  const [data, setData]     = useState([]);
+  const idsParam = searchParams.get("ids") || "";
+  const [data, setData]       = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const ids = idsParam.split(",").filter(Boolean);
     if (ids.length < 2) { setLoading(false); return; }
     API.get(`/analytics/compare?ids=${ids.join(",")}`)
       .then(({ data: d }) => setData(d))
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, [idsParam]);
 
   if (loading) return <Loader text="Loading comparison..." />;
   if (data.length < 2) return (
@@ -60,94 +61,86 @@ const CompareProducts = () => {
         </div>
       </div>
 
+      {/* Radar Chart */}
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-        <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
-          <BarChart2 className="w-4 h-4 text-teal-600" /> Relative Performance Radar
-        </h3>
-        <ResponsiveContainer width="100%" height={320}>
-          <RadarChart data={radarData}>
-            <PolarGrid stroke="#f1f5f9" />
-            <PolarAngleAxis dataKey="metric" tick={{ fontSize: 11, fill: "#64748b" }} />
-            <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 9, fill: "#94a3b8" }} />
-            {data.map((d, i) => (
-              <Radar
-                key={d._id}
-                name={d.name}
-                dataKey={d.name}
-                stroke={COLORS[i % COLORS.length]}
-                fill={COLORS[i % COLORS.length]}
-                fillOpacity={0.15}
-                strokeWidth={2}
+        <h2 className="font-display font-semibold text-slate-800 mb-1">Performance Radar</h2>
+        <p className="text-xs text-slate-400 mb-6">Metrics normalised to 100% relative to the best performer in each category</p>
+        <div className="h-80 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <RadarChart data={radarData}>
+              <PolarGrid stroke="#f1f5f9" />
+              <PolarAngleAxis dataKey="metric" tick={{ fill: "#64748b", fontSize: 12, fontFamily: "Plus Jakarta Sans" }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: "#94a3b8", fontSize: 10 }} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#0f172a",
+                  borderColor: "transparent",
+                  borderRadius: "12px",
+                  color: "#fff",
+                  fontSize: "12px",
+                  fontFamily: "Plus Jakarta Sans",
+                }}
+                formatter={(val, name) => [`${val}%`, name]}
               />
-            ))}
-            <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#0f172a",
-                borderColor: "#1e293b",
-                borderRadius: "0.75rem",
-                color: "#fff",
-                fontSize: "12px",
-              }}
-              formatter={(v) => [`${v}%`, "Relative score"]}
-            />
-          </RadarChart>
-        </ResponsiveContainer>
-        <p className="text-xs text-slate-400 text-center mt-3">
-          All metrics normalized to 0–100% relative to the best performer across your selection
-        </p>
+              <Legend wrapperStyle={{ fontSize: "12px", fontFamily: "Plus Jakarta Sans" }} />
+              {data.map((p, i) => (
+                <Radar
+                  key={p._id}
+                  name={p.name}
+                  dataKey={p.name}
+                  stroke={COLORS[i % COLORS.length]}
+                  fill={COLORS[i % COLORS.length]}
+                  fillOpacity={0.25}
+                />
+              ))}
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
+      {/* Metrics Table */}
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="px-6 py-4 border-b border-slate-100">
+          <h2 className="font-display font-semibold text-slate-800">Detailed Breakdown</h2>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-slate-50 border-b border-slate-200">
+            <thead className="bg-slate-50 text-slate-500 text-xs font-semibold uppercase">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500">Metric</th>
-                {data.map((d, i) => (
-                  <th key={d._id} className="px-4 py-3 text-right text-xs font-semibold" style={{ color: COLORS[i % COLORS.length] }}>
-                    {d.name}
+                <th className="px-6 py-3 text-left">Metric</th>
+                {data.map((p, i) => (
+                  <th key={p._id} className="px-6 py-3 text-right">
+                    <span className="flex items-center justify-end gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full inline-block"
+                        style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                      <span className="text-slate-800 normal-case font-bold">{p.name}</span>
+                    </span>
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {[
-                { key: "price",          label: "Price",         fmt: (v) => `₹${v}` },
-                { key: "stock",          label: "Stock",         fmt: (v) => v },
-                { key: "views",          label: "Total Views",   fmt: (v) => v.toLocaleString() },
-                { key: "cartAdds",       label: "Cart Adds",     fmt: (v) => v.toLocaleString() },
-                { key: "favouriteCount", label: "Favourites",    fmt: (v) => v },
-                { key: "conversionRate", label: "Conversion %",  fmt: (v) => `${v}%` },
-              ].map(({ key, label, fmt }, idx) => {
-                const values = data.map((d) => d[key]);
-                const best   = Math.max(...values);
-                return (
-                  <tr key={key} className={`transition-colors ${idx % 2 === 0 ? "bg-white" : "bg-slate-50/40"}`}>
-                    <td className="px-4 py-3 font-semibold text-slate-700">{label}</td>
-                    {data.map((d) => {
-                      const isWinner = d[key] === best && best > 0;
-                      return (
-                        <td key={d._id} className={`px-4 py-3 text-right font-semibold
-                          ${isWinner ? "text-emerald-600" : "text-slate-700"}`}>
-                          {fmt(d[key])}
-                          {isWinner && <span className="ml-1 text-xs">⭐</span>}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
+                { label: "Price",           format: (p) => `₹${p.price}` },
+                { label: "Stock Units",     format: (p) => `${p.stock} ${p.unit || ""}` },
+                { label: "Total Views",     format: (p) => p.views.toLocaleString() },
+                { label: "Cart Additions",  format: (p) => p.cartAdds.toLocaleString() },
+                { label: "Favourites",      format: (p) => p.favouriteCount.toLocaleString() },
+                { label: "Conversion Rate", format: (p) => `${p.conversionRate}%`, bold: true },
+              ].map(({ label, format, bold }) => (
+                <tr key={label} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-6 py-3 text-slate-600 font-medium">{label}</td>
+                  {data.map((p) => (
+                    <td key={p._id}
+                      className={`px-6 py-3 text-right ${bold ? "font-bold text-teal-700" : "text-slate-700"}`}>
+                      {format(p)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div className="flex justify-center">
-        <Link to="/analytics/shop"
-          className="flex items-center gap-2 px-5 py-2.5 border border-slate-200 text-slate-700 font-medium rounded-xl hover:bg-slate-50 transition-colors text-sm shadow-sm">
-          <ArrowLeft className="w-4 h-4" /> Back to All Products
-        </Link>
       </div>
     </div>
   );

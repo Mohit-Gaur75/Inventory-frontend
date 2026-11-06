@@ -3,10 +3,12 @@ import { io } from "socket.io-client";
 import { useAuth } from "./AuthContext";
 
 const SocketContext = createContext();
-const extractToken = (user) => user?.token || null;
 
 const SOCKET_URL =
-  process.env.REACT_APP_SOCKET_URL ; 
+  process.env.REACT_APP_SOCKET_URL ||
+  (process.env.REACT_APP_API_URL
+    ? process.env.REACT_APP_API_URL.replace(/\/api\/?$/, "")
+    : undefined);
 
 export const SocketProvider = ({ children }) => {
   const { user }  = useAuth();
@@ -16,10 +18,10 @@ export const SocketProvider = ({ children }) => {
   const [connected, setConnected] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState(new Set());
 
-  useEffect(() => {
-    const token = extractToken(user); 
+  const userToken = user?.token || null;
 
-    if (!token) {
+  useEffect(() => {
+    if (!userToken) {
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current = null;
@@ -30,7 +32,7 @@ export const SocketProvider = ({ children }) => {
     }
 
     const s = io(SOCKET_URL, {
-      auth:                 { token },
+      auth:                 { token: userToken },
       transports:           ["websocket", "polling"],
       reconnection:         true,
       reconnectionAttempts: 5,
@@ -54,7 +56,7 @@ export const SocketProvider = ({ children }) => {
       setSocket(null);
       setConnected(false);
     };
-  }, [user?.token]); 
+  }, [userToken]); 
 
   const subscribeToShop   = useCallback((shopId) =>
     socketRef.current?.emit("shop:subscribe", shopId), []);

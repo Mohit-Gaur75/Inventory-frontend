@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   getNotifications, markAsRead,
@@ -36,11 +36,7 @@ const Notifications = () => {
   const [totalPages, setTotalPages]       = useState(1);
   const [total, setTotal]                 = useState(0);
 
-  useEffect(() => {
-    fetchNotifications();
-  }, [page]);
-
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await getNotifications({ page, limit: 15 });
@@ -53,7 +49,11 @@ const Notifications = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page]);
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   const handleRead = async (notification) => {
     if (!notification.isRead) {
