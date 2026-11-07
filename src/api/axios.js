@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL || "http://localhost:1000/api",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -109,7 +109,7 @@ export const previewImport   = (formData)         =>
 export const confirmImport   = (formData, mode)   =>
   API.post(`/import/confirm?mode=${mode}`, formData, { headers: { "Content-Type": "multipart/form-data" } });
 export const downloadTemplate = ()               =>
-  `${process.env.REACT_APP_API_URL}/import/template`;
+  `${process.env.REACT_APP_API_URL || "http://localhost:1000/api"}/import/template`;
 
 // Analytics 
 export const trackView       = (productId) => API.post(`/analytics/view/${productId}`).catch(() => {});

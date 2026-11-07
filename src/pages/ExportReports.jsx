@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FileText, FileSpreadsheet, Download, AlertTriangle, TrendingDown } from "lucide-react";
 
-const BASE = process.env.REACT_APP_API_URL;
+const BASE = process.env.REACT_APP_API_URL || "http://localhost:1000/api";
 
 const getToken = () => {
   try { return JSON.parse(localStorage.getItem("userInfo"))?.token || ""; }

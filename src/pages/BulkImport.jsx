@@ -73,7 +73,7 @@ const BulkImport = () => {
 
   const downloadTemplate = () => {
     window.open(
-      `${process.env.REACT_APP_API_URL}/import/template`,
+      `${process.env.REACT_APP_API_URL || "http://localhost:1000/api"}/import/template`,
       "_blank"
     );
   };

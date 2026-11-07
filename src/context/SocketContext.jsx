@@ -8,7 +8,7 @@ const SOCKET_URL =
   process.env.REACT_APP_SOCKET_URL ||
   (process.env.REACT_APP_API_URL
     ? process.env.REACT_APP_API_URL.replace(/\/api\/?$/, "")
-    : undefined);
+    : "http://localhost:1000");
 
 export const SocketProvider = ({ children }) => {
   const { user }  = useAuth();

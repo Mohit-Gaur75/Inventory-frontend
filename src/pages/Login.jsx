@@ -25,7 +25,7 @@ const Login = () => {
             navigate(data.role === "shopkeeper" ? "/dashboard" : (data.redirectTo || "/search"));
 
         } catch (err) {
-            toast.error(err.response?.data?.message || "Login failed");
+            toast.error(err.response?.data?.message || (err.message === "Network Error" ? "Cannot connect to server" : "Login failed"));
         } finally {
             setLoading(false);
         }
