@@ -32,7 +32,7 @@ const Register = () => {
     setLoading(true);
     try {
       await registerUser({ ...form, email: emailTrim });
-      toast.success("Account created successfully! Please sign in with your credentials.");
+      toast.success("Account created successfully! A confirmation email has been sent to your inbox.", { duration: 5000 });
       navigate("/login");
     } catch (err) {
       const data = err.response?.data;
