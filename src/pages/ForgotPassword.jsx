@@ -22,7 +22,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       const { data } = await forgotPassword(email);
-      toast.success("OTP sent! Check your server console.");
+      toast.success(data.message || "Verification code sent to your email!");
       if (data.devOtp) {
         setDevOtp(data.devOtp);
         toast("Dev mode: OTP is " + data.devOtp, { icon: "🔑", duration: 10000 });
