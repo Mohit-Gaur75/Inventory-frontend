@@ -3,6 +3,9 @@ import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import Navbar from "./components/Navbar";
+import OfflineIndicator from "./components/OfflineIndicator";
+import InstallBanner from "./components/InstallBanner";
+import MobileBottomNav from "./components/MobileBottomNav";
 
 import Login          from "./pages/Login";
 import Register       from "./pages/Register";
@@ -37,9 +40,12 @@ import AdminReviews   from "./pages/admin/AdminReviews";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 
 const MainLayout = ({ children }) => (
-  <div className="min-h-screen bg-white">
+  <div className="min-h-screen bg-white flex flex-col">
+    <OfflineIndicator />
     <Navbar />
-    <main>{children}</main>
+    <main className="flex-1 pb-20 md:pb-0">{children}</main>
+    <MobileBottomNav />
+    <InstallBanner />
   </div>
 );
 

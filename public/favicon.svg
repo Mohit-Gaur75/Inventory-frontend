@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="50%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  <rect x="4" y="4" width="504" height="504" rx="108" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="4"/>
+  <g transform="translate(0, -6)">
+    <path d="M192 184 C192 128, 320 128, 320 184" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round"/>
+    <path d="M148 196 L364 196 L344 388 C342 402, 332 412, 318 412 L194 412 C180 412, 170 402, 168 388 Z" fill="#ffffff"/>
+    <path d="M216 232 C216 264, 296 264, 296 232" fill="none" stroke="#0d9488" stroke-width="16" stroke-linecap="round"/>
+    <g transform="translate(290, 276)">
+      <circle cx="44" cy="44" r="48" fill="#ffffff"/>
+      <circle cx="44" cy="44" r="40" fill="url(#badgeGrad)"/>
+      <path d="M44 22 C34 22, 26 30, 26 40 C26 53, 44 68, 44 68 C44 68, 62 53, 62 40 C62 30, 54 22, 44 22 Z" fill="#ffffff"/>
+      <circle cx="44" cy="38" r="5" fill="#0d9488"/>
+    </g>
+  </g>
+</svg>

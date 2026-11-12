@@ -7,8 +7,9 @@ import SearchBar            from "./SearchBar";
 import {
   ShoppingBag, LayoutDashboard, LogOut,
   LogIn, Menu, X, Heart, BarChart2, Map,
-  ShoppingCart, UserCircle, Upload, FileDown,
+  ShoppingCart, UserCircle, Upload, FileDown, Download
 } from "lucide-react";
+import usePWA from "../hooks/usePWA";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -18,6 +19,7 @@ const Navbar = () => {
   const navigate           = useNavigate();
   const location           = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { canInstall, install } = usePWA();
 
   const handleLogout = () => { logout(); navigate("/login"); };
   const isActive = (path) => location.pathname === path;
@@ -97,6 +99,17 @@ const Navbar = () => {
               </>
             )}
 
+            {canInstall && (
+              <button
+                onClick={install}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-teal-700 text-xs font-semibold rounded-xl border border-teal-200/60 shadow-sm transition-all duration-200 hover:-translate-y-0.5"
+                title="Install LocalMart App on your device"
+              >
+                <Download className="w-3.5 h-3.5 text-teal-600" />
+                <span className="hidden lg:inline">Install App</span>
+              </button>
+            )}
+
             {user ? (
               <>
                 <NotificationBell unreadCount={unreadCount} />
@@ -149,7 +162,16 @@ const Navbar = () => {
                   <MobileLink to="/export"     label="Export Reports" icon={<FileDown className="w-4 h-4" />}    active={isActive("/export")} onClick={() => setMenuOpen(false)} />
                 </>
               )}
-              {user ? (
+              {canInstall && (
+                <button
+                  onClick={() => { install(); setMenuOpen(false); }}
+                  className="flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/70 transition-colors"
+                >
+                  <Download className="w-4 h-4 text-teal-600" /> Install LocalMart App
+                </button>
+              )}
+
+            {user ? (
                 <>
                   <MobileLink to="/notifications" label={`Notifications${unreadCount > 0 ? ` (${unreadCount})` : ""}`} icon={<span />} active={isActive("/notifications")} onClick={() => setMenuOpen(false)} />
                   <MobileLink to="/profile"        label="Profile"  icon={<UserCircle className="w-4 h-4" />}    active={isActive("/profile")} onClick={() => setMenuOpen(false)} />
